@@ -47,17 +47,26 @@ export default class CartScreen extends React.Component {
     });
   }
 
-  send(){
+  placeOrder(){
     this.setState({message:"Loading..."});
+    const reducerState = this.store.getState();
 
-    var suffix = "?email="+ this.state.email +"&password="+this.state.password;
-    var bod = {email:this.state.email, password:this.state.password};
-    fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Customer/auth' + suffix, {
+    var order = reducerState.order;
+    order.id = 0;
+    var placeItems = [];
+    reducerState.itemsCart.forEach(element => {
+      placeItems.push(element);
+    });
+    order.orderItems = placeItems;
+    order.status = "opened";
+
+    fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Order', {
       method: 'POST',
       headers: {
-        Accept: 'application/json'
+        Accept: 'application/json',
+        Authorization : 'Bearer ' + reducerState.userToken
       },
-      body: JSON.stringify(bod),
+      body: JSON.stringify(order),
     })
     .then((response) => response.json())
     .then((response) => {
@@ -75,10 +84,6 @@ export default class CartScreen extends React.Component {
     });
 
 
-  }
-
-  placeOrder(){
-    //this.props.navigation.navigate("Home", {userToken : this.state.userToken});
   }
 
   render() {
@@ -104,6 +109,15 @@ export default class CartScreen extends React.Component {
               );
             }}
           />
+          <Button
+            full
+            rounded
+            primary
+            style={{ marginTop: 10 }}
+            onPress={this.placeOrder}
+          >
+            <Text>Place Order!</Text>
+          </Button>
         </Content>
       </Container>
     );

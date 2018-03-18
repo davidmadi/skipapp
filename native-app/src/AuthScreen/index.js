@@ -17,7 +17,7 @@ const AuthScreenRouter = DrawerNavigator(
   {
     //HomeIndex : {screen : HomeIndex },//remove
     AuthScreen: { screen: AuthScreen },
-    Home: { screen: HomeScreen },
+    Home: { screen: HomeIndex },
     Chat: { screen: MainScreenNavigator },
     ProfileScreen: { screen: ProfileScreen },
     Products: { screen: props => <ListProductsScreen {...props}/> },

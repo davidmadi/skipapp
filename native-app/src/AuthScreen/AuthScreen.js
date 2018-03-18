@@ -54,7 +54,11 @@ export default class AuthScreen extends React.Component {
         this.setState({message:response.error});
       else
       {
-        this.setState({message:"Welcome!"});
+        this.store.dispatch({
+          type: "LISTPRODUCTS",
+          userToken:response
+        });
+          this.setState({message:"Welcome!"});
         this.setState({userToken:response});
         this.navigateToHome();
       }

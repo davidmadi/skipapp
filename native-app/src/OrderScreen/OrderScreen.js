@@ -27,11 +27,24 @@ export default class OrderScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {itemsCart:[]};
+    this.store = this.props.screenProps;
     this.placeOrder = this.placeOrder.bind(this);
+    this.subscribeRender = this.subscribeRender.bind(this);
+  }
+
+  componentWillMount(){
+    this.store.subscribe(this.subscribeRender);
   }
 
   componentDidMount(){
-    //this.fetchList();
+    this.subscribeRender();    
+  }
+
+  subscribeRender(){
+    this.setState({
+      isLoading: false,
+      itemsCart:this.store.getState().order
+    });
   }
 
   send(){

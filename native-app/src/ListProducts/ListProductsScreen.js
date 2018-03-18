@@ -49,7 +49,7 @@ export default class ListProductsScreen extends React.Component {
   fetchList(){
     this.setState({itemsList:[{id:0, name:"Loading"}], isLoading: true});
 
-    fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Cousine', {
+    fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Product', {
       method: 'GET',
       headers: {}
     })
@@ -78,9 +78,6 @@ export default class ListProductsScreen extends React.Component {
       type: "ADDPRODUCTCART",
       item:item
     });
-  
-    //this.setState({itemsList:newList});
-    //alert(item.selected);
   }
 
   whynot(item){
