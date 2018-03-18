@@ -78,10 +78,8 @@ export default class ListProductsScreen extends React.Component {
       type: "ADDPRODUCTCART",
       item:item
     });
-  }
 
-  whynot(item){
-    return item.selected;
+    this.props.navigation.navigate("Cart");
   }
 
   render() {
@@ -97,7 +95,7 @@ export default class ListProductsScreen extends React.Component {
             </Button>
           </Left>
           <Body>
-            <Title>Cousine</Title>
+            <Title>Foods</Title>
           </Body>
           <Right />
         </Header>

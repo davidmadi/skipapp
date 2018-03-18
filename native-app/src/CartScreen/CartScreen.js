@@ -18,7 +18,8 @@ import {
   List,
   ListItem,
   Right,
-  Image
+  Image,
+  RefreshControl
 } from "native-base";
 
 
@@ -45,9 +46,14 @@ export default class CartScreen extends React.Component {
       isLoading: false,
       itemsCart:this.store.getState().itemsCart
     });
+    this.forceUpdate();
   }
 
   placeOrder(){
+
+    alert('sorry, not working yet!');
+    return;
+
     this.setState({message:"Loading..."});
     const reducerState = this.store.getState();
 
