@@ -16,11 +16,13 @@ export default function orderReducer(state={}, action){
         lastUpdate: null
       },
       userToken : "",
-      storeId : 0
+      storeId : 0,
+      allProducts : []
     };
   }
   else if (action.type === "STOREID"){
     state.storeId = action.storeId;
+    state.productsList = state.allProducts.filter(f => f.storeId === action.storeId);
   }
   else if (action.type === "STORES"){
     state.storesList = action.storesList;
@@ -31,11 +33,12 @@ export default function orderReducer(state={}, action){
   }
   else if (action.type === "LISTPRODUCTS")
   {
-    if (state.storeId){
-      state.productsList = action.productsList.filter(f => f.storeId === state.storeId);
-    }
+    state.allProducts = action.productsList;
+    if (state.storeId !== 0)
+      state.productsList = state.allProducts.filter(f => f.storeId === state.storeId);
     else
-      state.productsList = action.productsList;    
+      state.productsList = state.allProducts.filter(f => f.storeId !== 0);
+    
   }
   else if (action.type === "ADDPRODUCTCART"){
 
