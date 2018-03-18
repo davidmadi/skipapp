@@ -18,18 +18,29 @@ import {
   Image,
   Radio
 } from "native-base";
-import SocketIOClient from 'socket.io-client';
-import ListSubItemsScreen from '../ListSubItems/ListSubItemsScreen';
 
-
-export default class ListItemsScreen extends React.Component {
+export default class ListProductsScreen extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {itemsList:[{id:0, name:"Loading", selected:false}], isLoading: true};
+    this.state = {productsList:[{id:0, name:"Loading", selected:false}], isLoading: true};
+    this.store = this.props.screenProps;
     this.fetchList = this.fetchList.bind(this);
-    this.navigateToItem = this.navigateToItem.bind(this);
+    this.subscribeRender = this.subscribeRender.bind(this);
   }
+
+
+  componentWillMount(){
+    this.store.subscribe(this.subscribeRender);
+  }
+
+  subscribeRender(){
+    this.setState({
+      isLoading: false,
+      productsList:this.store.getState().productsList
+    });
+  }
+
 
   componentDidMount(){
     this.fetchList();
@@ -44,18 +55,14 @@ export default class ListItemsScreen extends React.Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      this.setState({
-        isLoading: false,
-        itemsList:responseJson,
+      this.store.dispatch({
+        type: "LISTPRODUCTS",
+        productsList:responseJson
       });
     })
     .catch((error) =>{
-      this.setState({itemsList:[{id:0, name:error.message }]});
+      this.setState({productsList:[{id:0, name:error.message }]});
     });
-  }
-
-  navigateToItem(item){
-    this.props.navigation.navigate("ListSubItems", {itemid : item.id});
   }
 
   selectItem(item){
@@ -66,6 +73,12 @@ export default class ListItemsScreen extends React.Component {
       isLoading: false,
       itemsList:newList
     });
+
+    this.store.dispatch({
+      type: "ADDPRODUCTCART",
+      item:item
+    });
+  
     //this.setState({itemsList:newList});
     //alert(item.selected);
   }
@@ -93,7 +106,7 @@ export default class ListItemsScreen extends React.Component {
         </Header>
         <Content padder>
           <List
-            dataArray={this.state.itemsList.sort(function(a, b){ return a.name > b.name; })}
+            dataArray={this.state.productsList.sort(function(a, b){ return a.name > b.name; })}
             contentContainerStyle={{ marginTop: 120 }}
             renderRow={data => {
               return (

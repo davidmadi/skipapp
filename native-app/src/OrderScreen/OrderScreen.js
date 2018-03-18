@@ -22,14 +22,12 @@ import {
 } from "native-base";
 
 
-export default class AuthScreen extends React.Component {
+export default class OrderScreen extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {email:'davidmadi@gmail.com', password:'DVD12345', autheticated:false, message:'', userToken:''};
-    this.send = this.send.bind(this);
-    this.store = this.props.screenProps;
-    this.navigateToHome = this.navigateToHome.bind(this);
+    this.state = {itemsCart:[]};
+    this.placeOrder = this.placeOrder.bind(this);
   }
 
   componentDidMount(){
@@ -66,11 +64,8 @@ export default class AuthScreen extends React.Component {
 
   }
 
-  navigateToHome(){
-    this.props.navigation.navigate("Home", {userToken : this.state.userToken, store:this.store });
-  }
-  onPasswordValueChange(e){
-    this.setState({password:e})
+  placeOrder(){
+    //this.props.navigation.navigate("Home", {userToken : this.state.userToken});
   }
 
   render() {
@@ -84,21 +79,7 @@ export default class AuthScreen extends React.Component {
           <Right />
         </Header>
         <Content padder>
-          <Label>Authentication</Label>
-          <Item>
-            <Input placeholder='Email' value={this.state.email} onChangeText={(text) => this.setState({email:text})}/>
-          </Item>        
-          <Item>
-            <Input placeholder='Password' value={this.state.password} onChangeText={(text) => this.setState({password:text})}/>
-          </Item>        
-          <Button
-            rounded
-            success
-            style={{ marginTop: 20, alignSelf: "center" }}
-            onPress={this.send.bind(this)}
-            >
-            <Text>Enter</Text>
-          </Button>
+          <Label>This is your Order</Label>
           <Label style={{ marginTop: 20, alignSelf: "center" }}
             >{this.state.message}</Label>
         </Content>

@@ -57,7 +57,7 @@ export default class HomeScreen extends React.Component {
             rounded
             primary
             style={{ marginTop: 10 }}
-            onPress={() => this.props.navigation.navigate("ListItemsScreen", {...this.props})}
+            onPress={(props) => this.props.navigation.navigate("HomeIndex")}
           >
             <Text>Check out products</Text>
           </Button>

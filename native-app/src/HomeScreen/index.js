@@ -1,22 +1,60 @@
 import React, { Component } from "react";
-import HomeScreen from "./HomeScreen.js";
-import MainScreenNavigator from "../ChatScreen/index.js";
-import ProfileScreen from "../ProfileScreen/index.js";
-import SideBar from "../SideBar/SideBar.js";
-import { DrawerNavigator } from "react-navigation";
-import ListItemsScreen from "../ListItems/ListItemsScreen.js";
-import ListSubItemsScreen from "../ListSubItems/ListSubItemsScreen.js";
+import { TabNavigator } from "react-navigation";
+import {
+  Footer,
+  FooterTab,
+  Button,
+  Text,
+  Icon
+} from "native-base";
+import {createStore} from 'redux';
+import ListProductsScreen from "../ListProducts/ListProductsScreen.js";
+import CartScreen from "../CartScreen/CartScreen.js";
+import OrderScreen from "../OrderScreen/OrderScreen.js";
+import ReducerFunction from "../Reducers/OrderReducer.js";
 
-const HomeScreenRouter = DrawerNavigator(
+//store = createStore(ReducerFunction);
+
+export default (HomeScreenRouter = TabNavigator(
   {
-    Home: { screen: HomeScreen },
-    Chat: { screen: MainScreenNavigator },
-    ProfileScreen: { screen: ProfileScreen },
-    ListItems : {screen : ListItemsScreen },
-    ListSubItems : {screen: ListSubItemsScreen}
+    Products: { screen: props => <ListProductsScreen {...props} /> },
+    Cart: { screen: props => <CartScreen {...props}  /> },
+    Order: { screen: props => <OrderScreen {...props}  /> }//store={store}
   },
   {
-    contentComponent: props => <SideBar {...props} />
+    tabBarPosition: "bottom",
+    tabBarComponent: props => {
+      return (
+        <Footer>
+          <FooterTab>
+            <Button
+              vertical
+              active={props.navigationState.index === 0}
+              onPress={() => props.navigation.navigate("Products")}
+            >
+              <Icon name="briefcase" />
+              <Text>Products</Text>
+            </Button>
+            <Button
+              vertical
+              active={props.navigationState.index === 1}
+              onPress={() => props.navigation.navigate("Cart")}
+            >
+              <Icon name="cart" />
+              <Text>Cart</Text>
+            </Button>
+            <Button
+              vertical
+              active={props.navigationState.index === 2}
+              onPress={() => props.navigation.navigate("Order")}
+            >
+              <Icon name="document" />
+              <Text>Order</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      );
+    }
   }
-);
-export default HomeScreenRouter;
+));
+

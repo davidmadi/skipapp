@@ -2,9 +2,16 @@ import React, { Component } from "react";
 import { View } from "react-native";
 import { Container, Content, Picker, Button, Text } from "native-base";
 import Expo from "expo";
-
 import HomeIndex from "./src/HomeScreen/index.js";
 import AuthIndex from "./src/AuthScreen/index.js";
+
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import ReducerFunction from "./src/Reducers/OrderReducer.js";
+
+store = createStore(ReducerFunction);
+
+
 export default class AwesomeApp extends Component {
   constructor() {
     super();
@@ -24,6 +31,9 @@ export default class AwesomeApp extends Component {
     if (!this.state.isReady) {
       return <Expo.AppLoading />;
     }
-    return <AuthIndex />;
+    return(
+      <Provider store={store}>
+        <AuthIndex screenProps={store} />
+      </Provider>);
   }
 }

@@ -22,18 +22,29 @@ import {
 } from "native-base";
 
 
-export default class AuthScreen extends React.Component {
+export default class CartScreen extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {email:'davidmadi@gmail.com', password:'DVD12345', autheticated:false, message:'', userToken:''};
-    this.send = this.send.bind(this);
+    this.state = {itemsCart:[]};
     this.store = this.props.screenProps;
-    this.navigateToHome = this.navigateToHome.bind(this);
+    this.placeOrder = this.placeOrder.bind(this);
+    this.subscribeRender = this.subscribeRender.bind(this);
+  }
+
+  componentWillMount(){
+    this.store.subscribe(this.subscribeRender);
   }
 
   componentDidMount(){
-    //this.fetchList();
+    this.subscribeRender();    
+  }
+
+  subscribeRender(){
+    this.setState({
+      isLoading: false,
+      itemsCart:this.store.getState().itemsCart
+    });
   }
 
   send(){
@@ -66,11 +77,8 @@ export default class AuthScreen extends React.Component {
 
   }
 
-  navigateToHome(){
-    this.props.navigation.navigate("Home", {userToken : this.state.userToken, store:this.store });
-  }
-  onPasswordValueChange(e){
-    this.setState({password:e})
+  placeOrder(){
+    //this.props.navigation.navigate("Home", {userToken : this.state.userToken});
   }
 
   render() {
@@ -79,28 +87,23 @@ export default class AuthScreen extends React.Component {
         <Header>
           <Left></Left>
           <Body>
-            <Icon name='person' />
+            <Icon name='cart' />
           </Body>
           <Right />
         </Header>
         <Content padder>
-          <Label>Authentication</Label>
-          <Item>
-            <Input placeholder='Email' value={this.state.email} onChangeText={(text) => this.setState({email:text})}/>
-          </Item>        
-          <Item>
-            <Input placeholder='Password' value={this.state.password} onChangeText={(text) => this.setState({password:text})}/>
-          </Item>        
-          <Button
-            rounded
-            success
-            style={{ marginTop: 20, alignSelf: "center" }}
-            onPress={this.send.bind(this)}
-            >
-            <Text>Enter</Text>
-          </Button>
-          <Label style={{ marginTop: 20, alignSelf: "center" }}
-            >{this.state.message}</Label>
+          <List
+            dataArray={this.state.itemsCart.sort(function(a, b){ return a.name > b.name; })}
+            contentContainerStyle={{ marginTop: 120 }}
+            renderRow={data => {
+              return (
+                <ListItem button>
+                  <Left><Text>1x</Text></Left>
+                  <Text>{data.name}</Text>
+                </ListItem>
+              );
+            }}
+          />
         </Content>
       </Container>
     );
