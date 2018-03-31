@@ -21,9 +21,16 @@ import {
   ListItem,
   Right,
   Image,
-  RefreshControl
+  RefreshControl,
+  Grid,
+  Row
 } from "native-base";
+import { Dimensions } from 'react-native';
 
+const { width, height } = Dimensions.get('window');
+const paddApp = 5;
+const wideWidth = width * 0.98 - paddApp;
+const itemHeigh = height / 10;
 
 export default class CartScreen extends React.Component {
 
@@ -55,7 +62,7 @@ export default class CartScreen extends React.Component {
 
   placeOrder(){
 
-    alert('sorry, not working yet!');
+    alert('sorry, not working yet!'+wideWidth);
     return;
 
     this.setState({message:"Loading..."});
@@ -95,6 +102,20 @@ export default class CartScreen extends React.Component {
   }
 
   render() {
+
+    if (this.state.cart.price == 0){
+      return(
+        <Container>
+          <Header></Header>
+          <Body style={{ marginTop:itemHeigh }}>
+            <Text info style={{fontSize:30}} >Your cart is empty.</Text>
+            <Text info style={{fontSize:70}}>;-)</Text>
+          </Body>
+        </Container>
+      );
+    }
+
+    const priceFormatted = this.state.cart.price;
     return (
       <Container>
         <Header>
@@ -117,43 +138,41 @@ export default class CartScreen extends React.Component {
             contentContainerStyle={{ marginTop: 120 }}
             renderRow={data => {
               return (
-                <ListItem button>
-                  <Left><Text>{data.quantity}x</Text></Left>
-                  <Text>{data.name}</Text>
-                </ListItem>
+                <Card style={{flex: 0}} key={data.id}>
+                  <CardItem>
+                    <Left><Text>{data.quantity}x</Text></Left>
+                    <Right>
+                      <Text>{data.name}</Text>
+                    </Right>
+                  </CardItem>
+                </Card>
               );
             }}
           />
-          <Button
-            full
-            rounded
-            primary
-            style={{ marginTop: 10 }}
-            onPress={this.placeOrder}
-          >
-            <Text>Place Order!</Text>
-          </Button>
         </Content>
-        <Footer>
-          <Body>
-          <Content>
-
-          <Card style={{marginBottom: 10}} >
-            <CardItem button>
-              <Left>
-                <Body>
-                  <Icon name="md-umbrella" />
-                </Body>
-              </Left>
-              <Right>
-                <Body>
-                  <Text>{this.state.cart.price}</Text>
-                </Body>
-              </Right>
-            </CardItem>
-          </Card>
-          </Content>
-          </Body>
+        <Footer style={{marginBottom: paddApp, height:itemHeigh*2}}>
+          <Container>
+            <Grid>
+              <Row style={{ padding:paddApp*2, height: itemHeigh }}>
+                <Left>
+                    <Icon name="ios-card" />
+                </Left>
+                <Right style={{ padding:paddApp*2 }}>
+                  <Text>{priceFormatted}</Text>
+                </Right>
+              </Row>
+              <Row style={{ padding:paddApp, height: itemHeigh+paddApp }}>
+                <Button
+                      full
+                      primary
+                      style={{ width:wideWidth, marginTop: 0 }}
+                      onPress={this.placeOrder}
+                    >
+                  <Text>Place Order!</Text>
+                </Button>
+              </Row>
+            </Grid>
+          </Container>
         </Footer>
       </Container>
     );
