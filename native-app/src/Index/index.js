@@ -7,16 +7,13 @@ import {createStore} from 'redux';
 import ReducerFunction from "../Reducers/OrderReducer.js";
 import ListProductsScreen from "../ListProducts/ListProductsScreen.js";
 import ListSubItemsScreen from "../ListSubItems/ListSubItemsScreen.js";
-import AuthScreen from "./AuthScreen.js";
-import IndexApp from "../Index/index.js";
+import StoresIndex from "../StoresScreen/index.js";
 
 //store = createStore(ReducerFunction);
 
-const AuthScreenRouter = DrawerNavigator(
+const IndexApp  = DrawerNavigator(
   {
-    //HomeIndex : {screen : HomeIndex },//remove
-    AuthScreen: { screen: AuthScreen },
-    IndexApp: { screen: IndexApp }
+    Purchase: { screen: StoresIndex },
     //Chat: { screen: props => <MainScreenNavigator {...props} /> },
     //ProfileScreen: { screen: ProfileScreen },
     //Products: { screen: props => <ListProductsScreen {...props}/> }
@@ -26,4 +23,4 @@ const AuthScreenRouter = DrawerNavigator(
   }
 );
 
-export default AuthScreenRouter;
+export default IndexApp;

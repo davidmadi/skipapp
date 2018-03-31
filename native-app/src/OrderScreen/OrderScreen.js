@@ -27,16 +27,17 @@ export default class OrderScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {itemsCart:[]};
-    this.store = this.props.screenProps;
+    this.store = this.props.screenProps.store;
     this.placeOrder = this.placeOrder.bind(this);
     this.subscribeRender = this.subscribeRender.bind(this);
   }
 
   componentWillMount(){
-    this.store.subscribe(this.subscribeRender);
+    this.unsubscribe = this.store.subscribe(this.subscribeRender);
   }
 
   componentDidMount(){
+    this.unsubscribe();
     this.subscribeRender();    
   }
 

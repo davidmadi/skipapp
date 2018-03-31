@@ -28,17 +28,20 @@ export default class CartScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {itemsCart:[]};
-    this.store = this.props.screenProps;
+    this.store = this.props.screenProps.store;
     this.placeOrder = this.placeOrder.bind(this);
     this.subscribeRender = this.subscribeRender.bind(this);
   }
 
   componentWillMount(){
-    this.store.subscribe(this.subscribeRender);
+    this.unsubscribe = this.store.subscribe(this.subscribeRender);
   }
 
+  componentWillUnmount(){
+    this.unsubscribe();
+  }
   componentDidMount(){
-    this.subscribeRender();    
+    this.subscribeRender();
   }
 
   subscribeRender(){
@@ -46,7 +49,6 @@ export default class CartScreen extends React.Component {
       isLoading: false,
       itemsCart:this.store.getState().itemsCart
     });
-    this.forceUpdate();
   }
 
   placeOrder(){
@@ -88,17 +90,22 @@ export default class CartScreen extends React.Component {
     .catch((error) =>{
       this.setState({message:error});
     });
-
-
   }
 
   render() {
     return (
       <Container>
         <Header>
-          <Left></Left>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate("DrawerToggle")}
+            >
+              <Icon name="menu" />
+            </Button>
+          </Left>
           <Body>
-            <Icon name='cart' />
+            <Icon name="cart" />
           </Body>
           <Right />
         </Header>

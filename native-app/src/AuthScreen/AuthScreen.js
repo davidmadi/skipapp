@@ -28,7 +28,7 @@ export default class AuthScreen extends React.Component {
     super(props);
     this.state = {email:'davidmadi@gmail.com', password:'DVD12345', autheticated:false, message:'', userToken:''};
     this.send = this.send.bind(this);
-    this.store = this.props.screenProps;
+    this.store = this.props.screenProps.store;
     this.navigateToHome = this.navigateToHome.bind(this);
   }
 

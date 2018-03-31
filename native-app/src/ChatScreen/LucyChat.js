@@ -23,7 +23,6 @@ import {
   FooterTab,
   Label
 } from "native-base";
-import HomeScreen from "../HomeScreen";
 
 export default class LucyChat extends React.Component {
   render() {

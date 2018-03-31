@@ -24,14 +24,13 @@ export default class ListProductsScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {productsList:[{id:0, name:"Loading", selected:false}], isLoading: true};
-    this.store = this.props.screenProps;
+    this.store = this.props.screenProps.store;
     this.fetchList = this.fetchList.bind(this);
     this.subscribeRender = this.subscribeRender.bind(this);
   }
 
-
-  componentWillMount(){
-    this.store.subscribe(this.subscribeRender);
+  componentWillUnmount(){
+    this.unsubscribe();
   }
 
   subscribeRender(){
@@ -41,8 +40,8 @@ export default class ListProductsScreen extends React.Component {
     });
   }
 
-
   componentDidMount(){
+    this.unsubscribe = this.store.subscribe(this.subscribeRender);
     this.fetchList();
   }
 
@@ -89,9 +88,9 @@ export default class ListProductsScreen extends React.Component {
           <Left>
             <Button
               transparent
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
+              onPress={() => this.props.navigation.goBack()}
             >
-              <Icon name="menu" />
+              <Icon name="md-arrow-dropleft" />
             </Button>
           </Left>
           <Body>

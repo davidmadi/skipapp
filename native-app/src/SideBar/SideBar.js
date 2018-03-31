@@ -9,8 +9,15 @@ import {
   Content,
   Icon
 } from "native-base";
-const routes = ["Home"];
+const routes = [
+  {route: "Purchase", display:"Purchase"}
+];
 export default class SideBar extends React.Component {
+
+  navigateToRoute(data){
+    this.props.navigation.navigate(data.route)
+  }
+
   render() {
     return (
       <Container>
@@ -48,9 +55,9 @@ export default class SideBar extends React.Component {
               return (
                 <ListItem
                   button
-                  onPress={() => this.props.navigation.navigate(data)}
+                  onPress={this.navigateToRoute.bind(this, data)}
                 >
-                  <Text>{data}</Text>
+                  <Text>{data.display}</Text>
                 </ListItem>
               );
             }}
