@@ -12,6 +12,8 @@ import {
   Body,
   Content,
   Header,
+  Footer,
+  FooterTab,
   Title,
   Left,
   Icon,
@@ -27,7 +29,7 @@ export default class CartScreen extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {itemsCart:[]};
+    this.state = {cart : { items:[], price:"10" }};
     this.store = this.props.screenProps.store;
     this.placeOrder = this.placeOrder.bind(this);
     this.subscribeRender = this.subscribeRender.bind(this);
@@ -47,7 +49,7 @@ export default class CartScreen extends React.Component {
   subscribeRender(){
     this.setState({
       isLoading: false,
-      itemsCart:this.store.getState().itemsCart
+      cart: this.store.getState().cart
     });
   }
 
@@ -111,12 +113,12 @@ export default class CartScreen extends React.Component {
         </Header>
         <Content padder>
           <List
-            dataArray={this.state.itemsCart.sort(function(a, b){ return a.name > b.name; })}
+            dataArray={this.state.cart.items.sort(function(a, b){ return a.name > b.name; })}
             contentContainerStyle={{ marginTop: 120 }}
             renderRow={data => {
               return (
                 <ListItem button>
-                  <Left><Text>1x</Text></Left>
+                  <Left><Text>{data.quantity}x</Text></Left>
                   <Text>{data.name}</Text>
                 </ListItem>
               );
@@ -132,6 +134,27 @@ export default class CartScreen extends React.Component {
             <Text>Place Order!</Text>
           </Button>
         </Content>
+        <Footer>
+          <Body>
+          <Content>
+
+          <Card style={{marginBottom: 10}} >
+            <CardItem button>
+              <Left>
+                <Body>
+                  <Icon name="md-umbrella" />
+                </Body>
+              </Left>
+              <Right>
+                <Body>
+                  <Text>{this.state.cart.price}</Text>
+                </Body>
+              </Right>
+            </CardItem>
+          </Card>
+          </Content>
+          </Body>
+        </Footer>
       </Container>
     );
   }

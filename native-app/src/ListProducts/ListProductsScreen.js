@@ -23,7 +23,7 @@ export default class ListProductsScreen extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {productsList:[{id:0, name:"Loading", selected:false}], isLoading: true};
+    this.state = {productsList:[{id:0, name:"Loading", selected:false, price:0}], isLoading: true};
     this.store = this.props.screenProps.store;
     this.fetchList = this.fetchList.bind(this);
     this.subscribeRender = this.subscribeRender.bind(this);
@@ -66,7 +66,8 @@ export default class ListProductsScreen extends React.Component {
 
   selectItem(item){
     const newList = this.state.itemsList.filter(f => f.id != item.id);
-    item = {id: item.id, name:item.name, selected:!item.selected};
+    item = JSON.parse(JSON.stringify(item));
+    item.selected = !item.selected;
     newList.push(item);
     this.setState({
       isLoading: false,
@@ -101,16 +102,22 @@ export default class ListProductsScreen extends React.Component {
         <Content padder>
           <List
             dataArray={this.state.productsList.sort(function(a, b){ return a.name > b.name; })}
-            contentContainerStyle={{ marginTop: 120 }}
-            renderRow={data => {
+            contentContainerStyle={{ marginTop: 0 }}
+            renderRow={food => {
               return (
-                <ListItem button
-                  onPress={this.selectItem.bind(this, data)}>
-                  <Left>
-                    <Radio selected={data.selected} />
-                  </Left>
-                  <Text>{data.name}</Text>
-                </ListItem>
+                <Card style={{flex: 0}} key={food.id}>
+                  <CardItem button onPress={this.selectItem.bind(this, food)}>
+                    <Left>
+                        <Body>
+                          <Text>{food.name}</Text>
+                          <Text note>{food.description}</Text>
+                        </Body>
+                    </Left>
+                    <Right>
+                      <Text>{food.price}</Text>
+                    </Right>
+                  </CardItem>
+                </Card>
               );
             }}
           />

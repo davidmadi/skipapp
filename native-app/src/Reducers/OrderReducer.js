@@ -1,7 +1,12 @@
 export default function orderReducer(state={}, action){
   if (action.type === "@@redux/INIT")
   {
-    state = {productsList : [], itemsCart : [], 
+    state = {
+      productsList : [], 
+      cart : {
+        items : [],
+        price : "0"
+      },
       storesList : [],
       order:{
         id: 0,
@@ -41,17 +46,32 @@ export default function orderReducer(state={}, action){
     
   }
   else if (action.type === "ADDPRODUCTCART"){
+    const existentItem = state.cart.items.filter(i => i.id === action.item.id);
 
-    const allWithoutIt = state.itemsCart.filter(i => i.id !== action.item.id);
-    const newArray = allWithoutIt.concat([action.item]);
-    state.itemsCart = newArray;
+    if (existentItem.length)
+      existentItem[0].quantity++;
+    else
+    {
+      action.item.quantity = 1;
+      const newArray = state.cart.items.concat([action.item]);
+      state.cart.items = newArray;
+    }
+    state.cart.price = state.cart.items.reduce(Math.sumProductReducer, 0);
   }
   else if (action.type === "NEWORDER"){
 
-    const allWithoutIt = state.itemsCart.filter(i => i.id !== action.item.id);
+    const allWithoutIt = state.cart.items.filter(i => i.id !== action.item.id);
     const newArray = allWithoutIt.concat([action.item]);
-    state.itemsCart = newArray;
+    state.state.cart = newArray;
   }
 
   return state;
+}
+
+class Math{
+
+  static sumProductReducer = function(prevValue, b){
+    return prevValue + (b.price * b.quantity);
+  }
+
 }
