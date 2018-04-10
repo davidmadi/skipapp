@@ -20,6 +20,14 @@ export default function orderReducer(state={}, action){
         status: "",
         lastUpdate: null
       },
+      customer : {
+        id : 0,
+        email: null,
+        name: null,
+        address: null,
+        creation: null,
+        password: null
+      },
       userToken : "",
       storeId : 0,
       allProducts : []
@@ -63,6 +71,10 @@ export default function orderReducer(state={}, action){
     const allWithoutIt = state.cart.items.filter(i => i.id !== action.item.id);
     const newArray = allWithoutIt.concat([action.item]);
     state.state.cart = newArray;
+  }
+  else if (action.type == "USERUPDATE"){
+    if (action.user && action.user.id)
+      state.customer = action.user;
   }
 
   return state;

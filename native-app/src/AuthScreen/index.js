@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import MainScreenNavigator from "../ChatScreen/index.js";
-import ProfileScreen from "../ProfileScreen/index.js";
 import SideBar from "../SideBar/SideBar.js";
 import { DrawerNavigator, TabNavigator } from "react-navigation";
 import {createStore} from 'redux';

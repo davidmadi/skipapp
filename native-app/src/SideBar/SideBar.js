@@ -10,7 +10,8 @@ import {
   Icon
 } from "native-base";
 const routes = [
-  {route: "Purchase", display:"Purchase"}
+  {route: "Purchase", display:"Purchase"},
+  {route: "Profile", display:"Profile"}
 ];
 export default class SideBar extends React.Component {
 

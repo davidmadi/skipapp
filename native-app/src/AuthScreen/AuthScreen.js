@@ -26,7 +26,13 @@ export default class AuthScreen extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {email:'davidmadi@gmail.com', password:'DVD12345', autheticated:false, message:'', userToken:''};
+    this.state = {
+      email:'davidmadi@gmail.com', 
+      password:'DVD12345', 
+      autheticated:false, 
+      message:'', 
+      userToken:''
+    };
     this.send = this.send.bind(this);
     this.store = this.props.screenProps.store;
     this.navigateToHome = this.navigateToHome.bind(this);
@@ -58,7 +64,7 @@ export default class AuthScreen extends React.Component {
           type: "USERTOKEN",
           userToken:response
         });
-          this.setState({message:"Welcome!"});
+        this.setState({message:"Welcome!"});
         this.setState({userToken:response});
         this.navigateToHome();
       }
@@ -71,7 +77,7 @@ export default class AuthScreen extends React.Component {
   }
 
   navigateToHome(){
-    this.props.navigation.navigate("Home");
+    this.props.navigation.navigate("Profile");
   }
   onPasswordValueChange(e){
     this.setState({password:e})

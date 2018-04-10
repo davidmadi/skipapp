@@ -115,7 +115,7 @@ export default class CartScreen extends React.Component {
       );
     }
 
-    const priceFormatted = this.state.cart.price;
+    const priceFormatted = "$ " + this.state.cart.price;
     return (
       <Container>
         <Header>

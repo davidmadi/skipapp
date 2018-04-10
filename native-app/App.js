@@ -33,7 +33,7 @@ export default class AwesomeApp extends Component {
     }
     return(
       <Provider store={screeP.store}>
-        <IndexApp screenProps={screeP} />
+        <AuthIndex screenProps={screeP} />
       </Provider>);
   }
 }
