@@ -40,16 +40,16 @@ export default class ProfileScreen extends React.Component {
 
   componentDidMount(){
     try {
-      const email = await AsyncStorage.getItem('@skipapp:customer_email');
-      const name = await AsyncStorage.getItem('@skipapp:customer_name');
-      const address = await AsyncStorage.getItem('@skipapp:customer_address');
-      if (email !== null){
-        this.setState({
-          email: email,
-          name:name,
-          address:address
-        })
-      }
+      //const email = await AsyncStorage.getItem('@skipapp:customer_email');
+      //const name = await AsyncStorage.getItem('@skipapp:customer_name');
+      //const address = await AsyncStorage.getItem('@skipapp:customer_address');
+      //if (email !== null){
+      //  this.setState({
+      //    email: email,
+      //    name:name,
+      //    address:address
+      //  })
+      //}
     } catch (error) {
       this.setState({message:error});
     }
@@ -59,9 +59,9 @@ export default class ProfileScreen extends React.Component {
     this.setState({message:"Loading..."});
 
     try {
-      await AsyncStorage.setItem('@skipapp:customer_email', this.state.email);
-      await AsyncStorage.setItem('@skipapp:customer_name', this.state.name);
-      await AsyncStorage.setItem('@skipapp:customer_address', this.state.address);
+      //await AsyncStorage.setItem('@skipapp:customer_email', this.state.email);
+      //await AsyncStorage.setItem('@skipapp:customer_name', this.state.name);
+      //await AsyncStorage.setItem('@skipapp:customer_address', this.state.address);
     } catch (error) {
       this.setState({message:error});
     }
@@ -82,14 +82,20 @@ export default class ProfileScreen extends React.Component {
     return (
       <Container>
         <Header>
-          <Left></Left>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate("DrawerToggle")}
+            >
+              <Icon name="menu" />
+            </Button>
+          </Left>
           <Body>
-            <Icon name='person' />
+            <Icon name="person" />
           </Body>
           <Right />
         </Header>
         <Content padder>
-          <Label>My data</Label>
           <Item>
             <Input placeholder='Name' value={this.state.name} onChangeText={(text) => this.setState({name:text})}/>
           </Item>        

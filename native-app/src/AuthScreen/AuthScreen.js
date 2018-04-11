@@ -77,7 +77,7 @@ export default class AuthScreen extends React.Component {
   }
 
   navigateToHome(){
-    this.props.navigation.navigate("Profile");
+    this.props.navigation.navigate("IndexApp");
   }
   onPasswordValueChange(e){
     this.setState({password:e})
