@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { StatusBar } from "react-native";
 import {
   Input,
@@ -20,6 +21,7 @@ import {
   Right,
   Image
 } from "native-base";
+import Authentication from '../../lib/authentication.js';
 
 
 export default class AuthScreen extends React.Component {
@@ -31,56 +33,18 @@ export default class AuthScreen extends React.Component {
       password:'DVD12345', 
       autheticated:false, 
       message:'', 
-      userToken:''
+      userToken:'',
+      loading:false,
     };
     this.send = this.send.bind(this);
     this.store = this.props.screenProps.store;
     this.navigateToHome = this.navigateToHome.bind(this);
   }
 
-  componentDidMount(){
-    //this.fetchList();
-  }
-
   send(){
-    this.setState({message:"Loading..."});
-
-    var suffix = "?email="+ this.state.email +"&password="+this.state.password;
-    var bod = {email:this.state.email, password:this.state.password};
-    fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Customer/auth' + suffix, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json'
-      },
-      body: JSON.stringify(bod),
-    })
-    .then((response) => response.json())
-    .then((response) => {
-      if (response.error)
-        this.setState({message:response.error});
-      else
-      {
-        this.store.dispatch({
-          type: "USERTOKEN",
-          userToken:response
-        });
-        this.setState({message:"Welcome!"});
-        this.setState({userToken:response});
-        this.navigateToHome();
-      }
-     })
-    .catch((error) =>{
-      this.setState({message:error});
-    });
-
-
-  }
-
-  navigateToHome(){
-    this.props.navigation.navigate("IndexApp");
-  }
-  onPasswordValueChange(e){
-    this.setState({password:e})
+    this.setState({loading:true});
+    let authUser = {email : this.state.email, password : this.state.password};
+    this.props.authenticate(this, authUser);
   }
 
   render() {
@@ -116,3 +80,17 @@ export default class AuthScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (allReducers) => ({
+});
+
+const mapDispatchToProps  = (dispatch) => ({
+  authenticate : (_this, user) => {
+    Authentication.Authenticate(dispatch, _this, user)
+    .then(()=>{
+      _this.props.navigation.navigate("IndexApp");
+    });
+  }
+});
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);
+

@@ -7,10 +7,9 @@ import IndexApp from './src/Index/index.js';
 
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
-import ReducerFunction from "./src/Reducers/OrderReducer.js";
+import allReducers from "./src/Reducers/allReducers.js";
 
-screeP = {store:createStore(ReducerFunction)};
-
+let generalStore = createStore(allReducers);
 
 export default class AwesomeApp extends Component {
   constructor() {
@@ -32,8 +31,8 @@ export default class AwesomeApp extends Component {
       return <Expo.AppLoading />;
     }
     return(
-      <Provider store={screeP.store}>
-        <AuthIndex screenProps={screeP} />
+      <Provider store={generalStore}>
+        <AuthIndex />
       </Provider>);
   }
 }
