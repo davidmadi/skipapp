@@ -23,7 +23,7 @@ export default class Authentication {
     return new Promise((resolve, reject) => {
       ApiIntegration.authenticate(user.email, user.password)
         .then((newUser) => {
-          Authentication.dispatcher.USERUPDATE(dispatch, newUser);
+          Authentication.dispatchers.USERUPDATE(dispatch, newUser);
           _this.setState({
             loading: false
           });
@@ -31,10 +31,9 @@ export default class Authentication {
         })
         .catch((error) => {
           _this.setState({
-            message: error,
+            message: error.message,
             loading: false
           });
-          reject(error);
         });
     });
   }
@@ -43,7 +42,7 @@ export default class Authentication {
     return new Promise((resolve, reject) => {
       ApiIntegration.persistUser(user)
         .then((newUser) => {
-          Authentication.dispatcher.USERUPDATE(dispatch, newUser);
+          Authentication.dispatchers.USERUPDATE(dispatch, newUser);
           _this.setState({
             loading: false
           });

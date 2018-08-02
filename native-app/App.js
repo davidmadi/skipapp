@@ -1,15 +1,13 @@
 import React, { Component } from "react";
-import { View } from "react-native";
-import { Container, Content, Picker, Button, Text } from "native-base";
+import { StyleProvider } from "native-base";
 import Expo from "expo";
 import AuthIndex from "./src/AuthScreen/index.js";
-import IndexApp from './src/Index/index.js';
 
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import allReducers from "./src/Reducers/allReducers.js";
 
-let generalStore = createStore(allReducers);
+let store = createStore(allReducers);
 
 export default class AwesomeApp extends Component {
   constructor() {
@@ -31,8 +29,10 @@ export default class AwesomeApp extends Component {
       return <Expo.AppLoading />;
     }
     return(
-      <Provider store={generalStore}>
-        <AuthIndex />
-      </Provider>);
+      //<StyleProvider>
+        <Provider  store={store}>
+          <AuthIndex />
+        </Provider>);
+      //</StyleProvider>
   }
 }

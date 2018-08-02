@@ -14,12 +14,12 @@ import {
 } from "native-base";
 import CartScreen from "../CartScreen/CartScreen.js";
 import OrderScreen from "../OrderScreen/OrderScreen.js";
-import StackIndex from './StackIndex';
+import StackCousine from './StackCousine';
 
 
 export default (HomeScreenRouter = TabNavigator(
   {
-    StackIndex: { screen : props => <StackIndex {...props} /> },
+    StackCousine: StackCousine,
     Cart: { screen: props => <CartScreen {...props}  /> },
     Order: { screen: props => <OrderScreen {...props}  /> }
   },
@@ -28,7 +28,7 @@ export default (HomeScreenRouter = TabNavigator(
     tabBarComponent: props => {
         return (<CartTab {...props} /> );
     },
-    initialRouteName : 'StackIndex'
+    initialRouteName : 'StackCousine'
   }
 ));
 
@@ -46,7 +46,7 @@ class CartTab extends React.Component{
             vertical
             active={this.props.navigationState.index === 0}
             disabled={this.props.navigationState.index === 0}
-            onPress={() => this.props.navigation.navigate("StoresStackIndex")}
+            onPress={() => this.props.navigation.navigate("StackCousine")}
           >
             <Icon name="globe" />
             <Text>Stores</Text>

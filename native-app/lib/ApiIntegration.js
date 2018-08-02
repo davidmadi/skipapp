@@ -40,11 +40,17 @@ export default class ApiIntegration{
 
   static authenticate(email, password){
     return new Promise((resolve, reject)=>{
-      resolve(mocks.authenticate(bod));
-      return;
-
       var suffix = "?email="+ email +"&password="+password;
       var bod = {email:email, password:password};
+
+      var response = mocks.authenticate(bod);
+      if (response.email)
+        resolve(response);
+      else
+        reject(response);
+
+      return;
+
       fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Customer/auth' + suffix, {
         method: 'POST',
         headers: {

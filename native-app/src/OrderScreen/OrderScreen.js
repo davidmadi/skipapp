@@ -1,5 +1,6 @@
 import React from "react";
 import { StatusBar, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
 import {
   Input,
   Label,
