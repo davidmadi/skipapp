@@ -5,7 +5,6 @@ import orderReducer from './orderReducer';
 import cartReducer from './cartReducer';
 import productsReducer from './productsReducer';
 import storesReducer from './storesReducer';
-import cousinesReducer from './cousinesReducer';
 
 export default combineReducers({
   customerReducer: customerReducer,
@@ -13,5 +12,4 @@ export default combineReducers({
   ordeReducer : orderReducer,
   productsReducer :productsReducer,
   storesReducer : storesReducer,
-  cousinesReducer: cousinesReducer,
 });

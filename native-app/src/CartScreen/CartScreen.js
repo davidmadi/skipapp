@@ -40,25 +40,6 @@ class CartScreen extends React.Component {
     this.state = {cart : { items:[], price:"10" }};
     this.store = this.props.screenProps.store;
     this.placeOrder = this.placeOrder.bind(this);
-    this.subscribeRender = this.subscribeRender.bind(this);
-  }
-
-  componentWillMount(){
-    this.unsubscribe = this.store.subscribe(this.subscribeRender);
-  }
-
-  componentWillUnmount(){
-    this.unsubscribe();
-  }
-  componentDidMount(){
-    this.subscribeRender();
-  }
-
-  subscribeRender(){
-    this.setState({
-      isLoading: false,
-      cart: this.store.getState().cart
-    });
   }
 
   placeOrder(){
@@ -116,7 +97,7 @@ class CartScreen extends React.Component {
       );
     }
 
-    const priceFormatted = "$ " + this.state.cart.price;
+    const priceFormatted = "$ " + this.props.price;
     return (
       <Container>
         <Header>

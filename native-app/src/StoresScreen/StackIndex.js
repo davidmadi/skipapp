@@ -20,14 +20,14 @@ import {
   Right,
   Label
 } from "native-base";
-import ListProductsScreen from "../ListProducts/ListProductsScreen.js";
+import ProductsScreen from './ProductsScreen';
+import CousinesScreen from './CousinesScreen';
 import StoresScreen from './StoresScreen.js';
-import ListCousinesScreen from '../ListCousines/ListCousinesScreen';
 
 export default storeStack = StackNavigator({
   stores : StoresScreen,
-  products : ListProductsScreen,
-  cousines : ListCousinesScreen,
+  products : ProductsScreen,
+  cousines : CousinesScreen,
 },
 {
   headerMode : 'none'

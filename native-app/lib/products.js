@@ -1,4 +1,4 @@
-import apiIntegration from './apiIntegration';
+import ApiIntegration from './apiIntegration';
 //http://api-vanhack-event-sp.azurewebsites.net/swagger/
 
 export default class Products {
@@ -14,7 +14,7 @@ export default class Products {
 
   static listProducts(dispatch, _this){
     return new Promise((resolve, reject)=>{
-      apiIntegration.listProducts()
+      ApiIntegration.listProducts()
       .then((productsList)=>{
         Products.dispatchers.PRODUCTS_LIST(dispatch, productsList);
         _this.setState({

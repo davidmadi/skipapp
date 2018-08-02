@@ -1,4 +1,4 @@
-import apiIntegration from './apiIntegration';
+import ApiIntegration from './apiIntegration';
 //http://api-vanhack-event-sp.azurewebsites.net/swagger/
 
 export default class Cart {

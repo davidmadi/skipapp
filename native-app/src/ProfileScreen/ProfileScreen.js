@@ -36,6 +36,11 @@ class ProfileScreen extends React.Component {
       creation: this.props.user.creation,
       password: this.props.user.password,
     };
+    this.updateUser = this.updateUser.bind(this);
+  }
+
+  updateUser(){
+    this.props.userUpdate(this, this.state);
   }
 
 
@@ -65,6 +70,13 @@ class ProfileScreen extends React.Component {
           </Item>        
           <Item>
             <Input placeholder='Address' value={this.state.address} onChangeText={(text) => this.setState({address:text})}/>
+          </Item>
+          <Item>
+            <Button rounded full
+            onPress={()=> this.updateUser()}
+            >
+              <Text>Update</Text>
+            </Button>            
           </Item>
           <Label style={{ marginTop: 20, alignSelf: "center" }}>{this.state.message}</Label>
         </Content>

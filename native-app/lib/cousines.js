@@ -1,4 +1,4 @@
-import apiIntegration from './apiIntegration';
+import ApiIntegration from './apiIntegration';
 //http://api-vanhack-event-sp.azurewebsites.net/swagger/
 
 export default class Cousines {
@@ -20,7 +20,7 @@ export default class Cousines {
 
   static listCousine(dispatch, _this){
     return new Promise((resolve, reject)=>{
-      apiIntegration.listCousine()
+      ApiIntegration.listCousine()
       .then((cousineList)=>{
         Cousines.dispatchers.COUSINES_LIST(dispatch, cousineList);
         _this.setState({
@@ -38,8 +38,8 @@ export default class Cousines {
     });
   }
 
-  static selecCousine(dispatch, cousine){
-    Cousines.dispatchers.selecCousine(dispatch, cousine);
+  static cousineSelect(dispatch, cousine){
+    Cousines.dispatchers.COUSINE_SELECT(dispatch, cousine);
   }
 
 }

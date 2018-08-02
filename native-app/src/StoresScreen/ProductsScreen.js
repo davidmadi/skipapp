@@ -22,7 +22,7 @@ import {
 import products from '../../lib/products';
 import cart from '../../lib/cart';
 
-class ListProductsScreen extends React.Component {
+class ProductsScreen extends React.Component {
 
   constructor(props){
     super(props);
@@ -61,19 +61,18 @@ class ListProductsScreen extends React.Component {
             contentContainerStyle={{ marginTop: 0 }}
             renderRow={food => {
               return (
-                <Card style={{flex: 0}} key={food.id}>
-                  <CardItem button onPress={this.selectItem.bind(this, food)}>
-                    <Left>
-                        <Body>
-                          <Text>{food.name}</Text>
-                          <Text note>{food.description}</Text>
-                        </Body>
-                    </Left>
-                    <Right>
-                      <Text>{food.price}</Text>
-                    </Right>
-                  </CardItem>
-                </Card>
+                <ListItem avatar>
+                  <Left>
+                    <Icon name="pricetag" />
+                  </Left>
+                  <Body>
+                    <Text>{food.name}</Text>
+                    <Text note>{food.description}</Text>
+                  </Body>
+                  <Right>
+                    <Text note>$ {food.price}</Text>
+                  </Right>
+                </ListItem>
               );
             }}
           />
@@ -96,5 +95,5 @@ const mapDispatchToProps  = (dispatch) => ({
     cart.addItem(dispatch, _this, product);
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(ListProductsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsScreen);
 

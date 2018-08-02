@@ -1,18 +1,22 @@
 import Moment from 'moment';
+import mocks from './mocks';
 
 export default class ApiIntegration{
 
-  static createUser(user){
+  static persistUser(user){
     return new Promise((resolve, reject)=>{
       let currDate = Moment(new Date()).format('YYYY-MM-DD HH:mm');  
       var bod = {
-        "id": 0,
+        "id": (user.id) ? user.id : 0,
         "email": user.email,
         "name": user.name,
         "address": user.address,
         "creation": currDate,
         "password": user.password
       };
+
+      resolve(mocks.persistUser(bod));
+      return;
 
       fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Customer', {
         method: 'POST',
@@ -27,7 +31,7 @@ export default class ApiIntegration{
           reject({message:response.error});
         else
           resolve(response);
-        })
+      })
       .catch((error) =>{
         reject({message:error});
       });
@@ -36,6 +40,8 @@ export default class ApiIntegration{
 
   static authenticate(email, password){
     return new Promise((resolve, reject)=>{
+      resolve(mocks.authenticate(bod));
+      return;
 
       var suffix = "?email="+ email +"&password="+password;
       var bod = {email:email, password:password};
@@ -62,6 +68,9 @@ export default class ApiIntegration{
 
   static listProducts(){
     return new Promise((resolve,reject)=>{
+      resolve(mocks.listProducts());
+      return;
+
       fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Product', {
         method: 'GET',
         headers: {}
@@ -80,6 +89,9 @@ export default class ApiIntegration{
     //http://api-vanhack-event-sp.azurewebsites.net/api/v1/Store/search/a
     return new Promise((resolve,reject)=>{
 
+      resolve(mocks.listStores());
+      return;
+
       fetch(`http://api-vanhack-event-sp.azurewebsites.net/api/v1/Store/search/${name}`, {
         method: 'GET',
         headers: {}
@@ -96,6 +108,10 @@ export default class ApiIntegration{
 
   static listStores(){
     return new Promise((resolve,reject)=>{
+      
+      resolve(mocks.listStores());
+      return;
+
       fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Store', {
         method: 'GET',
         headers: {}
@@ -112,6 +128,9 @@ export default class ApiIntegration{
 
   static listCousine(){
     return new Promise((resolve,reject)=>{
+      resolve(mock.listCousines());
+      return;
+
       fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Cousine', {
         method: 'GET',
         headers: {}
