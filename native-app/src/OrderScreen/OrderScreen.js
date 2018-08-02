@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, TouchableOpacity } from "react-native";
 import {
   Input,
   Label,
@@ -20,66 +20,14 @@ import {
   Right,
   Image
 } from "native-base";
+import OrderLib from '../../lib/orderLib';
 
 
-export default class OrderScreen extends React.Component {
+class OrderScreen extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {itemsCart:[]};
-    this.store = this.props.screenProps.store;
-    this.placeOrder = this.placeOrder.bind(this);
-    this.subscribeRender = this.subscribeRender.bind(this);
-  }
-
-  componentWillMount(){
-    this.unsubscribe = this.store.subscribe(this.subscribeRender);
-  }
-
-  componentDidMount(){
-    this.unsubscribe();
-    this.subscribeRender();    
-  }
-
-  subscribeRender(){
-    this.setState({
-      isLoading: false,
-      itemsCart:this.store.getState().order
-    });
-  }
-
-  send(){
-    this.setState({message:"Loading..."});
-
-    var suffix = "?email="+ this.state.email +"&password="+this.state.password;
-    var bod = {email:this.state.email, password:this.state.password};
-    fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Customer/auth' + suffix, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json'
-      },
-      body: JSON.stringify(bod),
-    })
-    .then((response) => response.json())
-    .then((response) => {
-      if (response.error)
-        this.setState({message:response.error});
-      else
-      {
-        this.setState({message:"Welcome!"});
-        this.setState({userToken:response});
-        this.navigateToHome();
-      }
-     })
-    .catch((error) =>{
-      this.setState({message:error});
-    });
-
-
-  }
-
-  placeOrder(){
-    //this.props.navigation.navigate("Home", {userToken : this.state.userToken});
+    this.state = {isLoading:false};
   }
 
   render() {
@@ -88,16 +36,52 @@ export default class OrderScreen extends React.Component {
         <Header>
           <Left></Left>
           <Body>
-            <Icon name='person' />
+            <Text>Orders</Text>
           </Body>
           <Right />
         </Header>
         <Content padder>
-          <Label>This is your Order</Label>
-          <Label style={{ marginTop: 20, alignSelf: "center" }}
-            >{this.state.message}</Label>
+          <List
+            dataArray={this.props.orders}
+            contentContainerStyle={{ marginTop: 120 }}
+            renderRow={order => {
+              return (
+                <TouchableOpacity
+                onPress={() => this.props.refreshOrderStatus(this, order)}>
+                  <Card style={{flex: 1}} key={product.id}>
+                    <CardItem>
+                      <Left>
+                        <Icon name="pricetag" />
+                      </Left>
+                      <Body>
+                        <Text>{order.id}</Text>
+                        <Text>{order.storeName}</Text>
+                        <Text note>{order.orderItems.length}</Text>
+                      </Body>
+                      <Right>
+                        <Text>{order.status}</Text>
+                      </Right>
+                    </CardItem>
+                  </Card>
+                </TouchableOpacity>
+              );
+            }}
+          />
         </Content>
       </Container>
     );
   }
 }
+
+const mapStateToProps = (allReducers) => ({
+  orders : allReducers.orderReducer.orders,
+  user : allReducers.customerReducer.user,
+});
+
+const mapDispatchToProps  = (dispatch) => ({
+  refreshOrderStatus : (_this, order) => {
+    OrderLib.refreshOrderStatus(dispatch, _this, order);    
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(OrderScreen);
+

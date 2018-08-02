@@ -1,4 +1,5 @@
 import { Map } from 'immutable';
+import Math from '../../lib/calculations/math';
 
 function initialState(){
   return {
@@ -32,11 +33,3 @@ export default function cartReducer(state = initialState(), action){
   return state;
 }
 
-
-class Math{
-
-  static sumProductReducer = function(prevValue, b){
-    return prevValue + (b.price * b.quantity);
-  }
-
-}

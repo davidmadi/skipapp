@@ -27,6 +27,7 @@ import {
   Row
 } from "native-base";
 import { Dimensions } from 'react-native';
+import OrderLib from '../../lib/orderLib';
 
 const { width, height } = Dimensions.get('window');
 const paddApp = 5;
@@ -37,55 +38,12 @@ class CartScreen extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {cart : { items:[], price:"10" }};
-    this.store = this.props.screenProps.store;
-    this.placeOrder = this.placeOrder.bind(this);
-  }
-
-  placeOrder(){
-
-    alert('sorry, not working yet!'+wideWidth);
-    return;
-
-    this.setState({message:"Loading..."});
-    const reducerState = this.store.getState();
-
-    var order = reducerState.order;
-    order.id = 0;
-    var placeItems = [];
-    reducerState.itemsCart.forEach(element => {
-      placeItems.push(element);
-    });
-    order.orderItems = placeItems;
-    order.status = "opened";
-
-    fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Order', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        Authorization : 'Bearer ' + reducerState.userToken
-      },
-      body: JSON.stringify(order),
-    })
-    .then((response) => response.json())
-    .then((response) => {
-      if (response.error)
-        this.setState({message:response.error});
-      else
-      {
-        this.setState({message:"Welcome!"});
-        this.setState({userToken:response});
-        this.navigateToHome();
-      }
-     })
-    .catch((error) =>{
-      this.setState({message:error});
-    });
+    this.state = {isLoading:false};
   }
 
   render() {
 
-    if (this.state.cart.price == 0){
+    if (this.props.price == 0){
       return(
         <Container>
           <Header></Header>
@@ -118,13 +76,13 @@ class CartScreen extends React.Component {
           <List
             dataArray={this.props.items.sort(function(a, b){ return a.name > b.name; })}
             contentContainerStyle={{ marginTop: 120 }}
-            renderRow={data => {
+            renderRow={product => {
               return (
-                <Card style={{flex: 0}} key={data.id}>
+                <Card style={{flex: 0}} key={product.id}>
                   <CardItem>
-                    <Left><Text>{data.quantity}x</Text></Left>
+                    <Left><Text>{product.quantity}x</Text></Left>
                     <Right>
-                      <Text>{data.name}</Text>
+                      <Text>{product.name}</Text>
                     </Right>
                   </CardItem>
                 </Card>
@@ -148,7 +106,7 @@ class CartScreen extends React.Component {
                       full
                       primary
                       style={{ width:wideWidth, marginTop: 0 }}
-                      onPress={this.placeOrder}
+                      onPress={() => this.props.placeOrder(this)}
                     >
                   <Text>Place Order!</Text>
                 </Button>
@@ -164,14 +122,12 @@ class CartScreen extends React.Component {
 const mapStateToProps = (allReducers) => ({
   items : allReducers.cartReducer.items,
   price : allReducers.cartReducer.price,
+  user : allReducers.customerReducer.user,
 });
 
 const mapDispatchToProps  = (dispatch) => ({
-  listStores : (_this) => {
-    
-  },
-  selectStore : (_this, store) => {
-    
+  placeOrder : (_this) => {
+    OrderLib.createOrders(dispatch, _this);
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);
