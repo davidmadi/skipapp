@@ -3,14 +3,14 @@ import { Map } from 'immutable';
 function initialState(){
   return {
     items : [],
-    price : "0"
+    price : 0
   }
 }
 
 export default function cartReducer(state = initialState(), action){
   let map = Map(state);
 
-  if (action.type === "ADDPRODUCTCART"){
+  if (action.type === "CART_ADD"){
     const existentItem = state.items.filter(i => i.id === action.item.id);
 
     if (existentItem.length)
@@ -21,11 +21,11 @@ export default function cartReducer(state = initialState(), action){
     {
       action.item.quantity = 1;
       const newArray = state.items.concat([action.item]);
-      state.items = newArray;
+      let newPrice = newArray.reduce(Math.sumProductReducer, 0);
+      state = map.set('items', newArray).set('price', newPrice).toObject();
     }
-    state.price = state.items.reduce(Math.sumProductReducer, 0);
   }
-  
+  return state;
 }
 
 

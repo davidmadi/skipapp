@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { StatusBar } from "react-native";
 import {
   Input,
@@ -134,7 +135,7 @@ export default class CartScreen extends React.Component {
         </Header>
         <Content padder>
           <List
-            dataArray={this.state.cart.items.sort(function(a, b){ return a.name > b.name; })}
+            dataArray={this.props.items.sort(function(a, b){ return a.name > b.name; })}
             contentContainerStyle={{ marginTop: 120 }}
             renderRow={data => {
               return (
@@ -178,3 +179,19 @@ export default class CartScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (allReducers) => ({
+  items : allReducers.cartReducer.items,
+  price : allReducers.cartReducer.price,
+});
+
+const mapDispatchToProps  = (dispatch) => ({
+  listStores : (_this) => {
+    
+  },
+  selectStore : (_this, store) => {
+    
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(StoresScreen);
+

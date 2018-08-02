@@ -16,7 +16,7 @@ import {createStore} from 'redux';
 import ListProductsScreen from "../ListProducts/ListProductsScreen.js";
 import CartScreen from "../CartScreen/CartScreen.js";
 import OrderScreen from "../OrderScreen/OrderScreen.js";
-import ReducerFunction from "../Reducers/OrderReducer.js";
+import ReducerFunction from "../Reducers/orderReducer.js";
 import StoresStackIndex from "../StoresScreen/StackIndex.js";
 
 

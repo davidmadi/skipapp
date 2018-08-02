@@ -1,5 +1,5 @@
 //http://api-vanhack-event-sp.azurewebsites.net/swagger/
-import ApiIntegration from 'ApiIntegration.js';
+import ApiIntegration from 'apiIntegration.js';
 
 export default class Authentication
 {
@@ -28,12 +28,14 @@ export default class Authentication
         _this.setState({
           loading:false
         });
+        resolve(newUser);
       })
       .catch((error)=>{
         _this.setState({
-          error: error,
+          message: error,
           loading:false
         });
+        reject(error);
       });  
     });
   }

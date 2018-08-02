@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { StatusBar, AsyncStorage } from "react-native";
 import {
   Input,
@@ -20,6 +21,7 @@ import {
   Right,
   Image
 } from "native-base";
+import authentication from '../../lib/authentication';
 
 
 export default class ProfileScreen extends React.Component {
@@ -28,55 +30,14 @@ export default class ProfileScreen extends React.Component {
     super(props);
     this.state = {
       id : 0,
-      email: null,
-      name: null,
-      address: null,
-      creation: null,
-      password: null
+      email: this.props.user.email,
+      name: this.props.user.name,
+      address: this.props.user.address,
+      creation: this.props.user.creation,
+      password: this.props.user.password,
     };
-    this.send = this.send.bind(this);
-    this.store = this.props.screenProps.store;
   }
 
-  componentDidMount(){
-    try {
-      //const email = await AsyncStorage.getItem('@skipapp:customer_email');
-      //const name = await AsyncStorage.getItem('@skipapp:customer_name');
-      //const address = await AsyncStorage.getItem('@skipapp:customer_address');
-      //if (email !== null){
-      //  this.setState({
-      //    email: email,
-      //    name:name,
-      //    address:address
-      //  })
-      //}
-    } catch (error) {
-      this.setState({message:error});
-    }
-  }
-
-  send(){
-    this.setState({message:"Loading..."});
-
-    try {
-      //await AsyncStorage.setItem('@skipapp:customer_email', this.state.email);
-      //await AsyncStorage.setItem('@skipapp:customer_name', this.state.name);
-      //await AsyncStorage.setItem('@skipapp:customer_address', this.state.address);
-    } catch (error) {
-      this.setState({message:error});
-    }
-
-    this.store.dispatch({
-      type: "USERUPDATE",
-      user:{
-        id:1,
-        name:this.state.name,
-        email:this.state.email,
-        address:this.state.address
-      }
-    });
-
-  }
 
   render() {
     return (
@@ -111,3 +72,15 @@ export default class ProfileScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (allReducers) => ({
+  user : allReducers.customerReducer.user,
+});
+
+const mapDispatchToProps  = (dispatch) => ({
+  userUpdate : (_this, user) => {
+    authentication.dispatchers.USERUPDATE(dispatch, user);
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
+

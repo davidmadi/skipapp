@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { StatusBar } from "react-native";
 import { StackNavigator } from "react-navigation";
 import {
@@ -20,58 +21,20 @@ import {
   Right,
   Label
 } from "native-base";
-import ListProductsScreen from "../ListProducts/ListProductsScreen.js";
+import stores from '../../lib/stores';
 
 
 export default class StoresScreen extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {userToken:this.props.userToken, isLoading: true, storesList:[{id:0, name:"Loading"}]};
-    //this.navigateToProducts = this.navigateToProducts.bind(this);
-    this.store = this.props.screenProps.store;
-    this.subscribeRender = this.subscribeRender.bind(this);
-  }
-
-  subscribeRender(){
-    this.setState({
-      isLoading: false,
-      storesList:this.store.getState().storesList
-    });
-  }
-
-  componentWillUnmount(){
-    this.unsubscribe();
+    this.state = {
+      isLoading: true
+    };
   }
 
   componentDidMount(){
-    this.unsubscribe = this.store.subscribe(this.subscribeRender);
-    this.fetchList();
-  }
-
-  fetchList(){
-    fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Store', {
-      method: 'GET',
-      headers: {}
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      this.store.dispatch({
-        type: "STORES",
-        storesList:responseJson
-      });
-    })
-    .catch((error) =>{
-      this.setState({storesList:[{id:0, name:error.message }]});
-    });
-  }
-
-  navigateToProducts(store){
-    this.store.dispatch({
-      type: "STOREID",
-      storeId:store.id
-    });
-    this.props.navigation.navigate("products");
+    this.props.listStores(this);
   }
 
   render() {
@@ -93,20 +56,21 @@ export default class StoresScreen extends React.Component {
         </Header>
         <Content>
             {
-              this.state.storesList.sort(function(a, b){ return a.name > b.name; }).map(store =>
+              this.props.stores.sort(function(a, b){ return a.name > b.name; })
+              .map(store =>
               {
                 return ( 
-                    <Card style={{flex: 0}} key={store.id}>
-                      <CardItem button onPress={this.navigateToProducts.bind(this, store)}>
-                        <Left>
-                            <Thumbnail source={{uri: 'Image URL'}} />
-                            <Body>
-                              <Text>{store.name}</Text>
-                              <Text note>{store.address}</Text>
-                            </Body>
-                        </Left>
-                      </CardItem>
-                    </Card>
+                  <Card style={{flex: 0}} key={store.id}>
+                    <CardItem button onPress={this.props.selectStore(this, store)}>
+                      <Left>
+                          <Thumbnail source={{uri: 'Image URL'}} />
+                          <Body>
+                            <Text>{store.name}</Text>
+                            <Text note>{store.address}</Text>
+                          </Body>
+                      </Left>
+                    </CardItem>
+                  </Card>
                 );
               })
             }
@@ -115,3 +79,19 @@ export default class StoresScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (allReducers) => ({
+  stores : allReducers.storesReducer.stores,
+  store : allReducers.storesReducer.store,
+});
+
+const mapDispatchToProps  = (dispatch) => ({
+  listStores : (_this) => {
+    stores.listStores(dispatch, _this);
+  },
+  selectStore : (_this, store) => {
+    stores.selectStore(dispatch, _this, store);
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(StoresScreen);
+

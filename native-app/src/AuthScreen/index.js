@@ -3,7 +3,7 @@ import MainScreenNavigator from "../ChatScreen/index.js";
 import SideBar from "../SideBar/SideBar.js";
 import { DrawerNavigator, TabNavigator } from "react-navigation";
 import {createStore} from 'redux';
-import ReducerFunction from "../Reducers/OrderReducer.js";
+import ReducerFunction from "../Reducers/orderReducer.js";
 import ListProductsScreen from "../ListProducts/ListProductsScreen.js";
 import ListSubItemsScreen from "../ListSubItems/ListSubItemsScreen.js";
 import AuthScreen from "./AuthScreen.js";
