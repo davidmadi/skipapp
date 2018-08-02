@@ -22,8 +22,7 @@ import {
 } from "native-base";
 import Authentication from '../../lib/authentication.js';
 
-
-export default class AuthScreen extends React.Component {
+class AuthScreen extends React.Component {
 
   constructor(props){
     super(props);

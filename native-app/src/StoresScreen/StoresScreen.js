@@ -23,8 +23,7 @@ import {
 } from "native-base";
 import stores from '../../lib/stores';
 
-
-export default class StoresScreen extends React.Component {
+class StoresScreen extends React.Component {
 
   constructor(props){
     super(props);

@@ -24,7 +24,7 @@ import {
 import authentication from '../../lib/authentication';
 
 
-export default class ProfileScreen extends React.Component {
+class ProfileScreen extends React.Component {
 
   constructor(props){
     super(props);

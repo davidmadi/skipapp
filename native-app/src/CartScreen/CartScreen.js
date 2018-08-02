@@ -33,7 +33,7 @@ const paddApp = 5;
 const wideWidth = width * 0.98 - paddApp;
 const itemHeigh = height / 10;
 
-export default class CartScreen extends React.Component {
+class CartScreen extends React.Component {
 
   constructor(props){
     super(props);
@@ -193,5 +193,5 @@ const mapDispatchToProps  = (dispatch) => ({
     
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(StoresScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);
 

@@ -21,7 +21,7 @@ import {
 } from "native-base";
 import cousines from '../../lib/cousines';
 
-export default class ListCousinesScreen extends React.Component {
+class ListCousinesScreen extends React.Component {
 
   constructor(props){
     super(props);
@@ -95,5 +95,5 @@ const mapDispatchToProps  = (dispatch) => ({
     cousines.selecCousine(dispatch, cousine);
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(ListProductsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ListCousinesScreen);
 

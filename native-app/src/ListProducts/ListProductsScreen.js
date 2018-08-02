@@ -22,7 +22,7 @@ import {
 import products from '../../lib/products';
 import cart from '../../lib/cart';
 
-export default class ListProductsScreen extends React.Component {
+class ListProductsScreen extends React.Component {
 
   constructor(props){
     super(props);

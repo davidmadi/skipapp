@@ -22,10 +22,12 @@ import {
 } from "native-base";
 import ListProductsScreen from "../ListProducts/ListProductsScreen.js";
 import StoresScreen from './StoresScreen.js';
+import ListCousinesScreen from '../ListCousines/ListCousinesScreen';
 
 export default storeStack = StackNavigator({
   stores : StoresScreen,
-  products : ListProductsScreen
+  products : ListProductsScreen,
+  cousines : ListCousinesScreen,
 },
 {
   headerMode : 'none'

@@ -1,5 +1,5 @@
 //http://api-vanhack-event-sp.azurewebsites.net/swagger/
-import ApiIntegration from 'apiIntegration.js';
+import apiIntegration from './apiIntegration.js';
 
 export default class Authentication
 {
