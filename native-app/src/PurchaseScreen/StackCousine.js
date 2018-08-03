@@ -27,6 +27,7 @@ import StoresScreen from './StoresScreen.js';
 export default storeStack = StackNavigator({
   stores : StoresScreen,
   products : ProductsScreen,
+  cousines : CousinesScreen,
 },
 {
   headerMode : 'none'

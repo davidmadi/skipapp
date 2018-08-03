@@ -41,7 +41,7 @@ class StoresScreen extends React.Component {
   }
 
   openFilter(){
-
+    this.props.navigation.navigate("cousines");
   }
 
   render() {

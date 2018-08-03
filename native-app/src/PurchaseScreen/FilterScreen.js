@@ -7,21 +7,67 @@ import {
   Body,
   Left,
 } from "native-base";
+import Foundation from '@expo/vector-icons/Foundation';
+import CousinesLib from '../../lib/cousines';
 
-export default ((onSelect, cousines) =>{
+class FilterScreen extends React.Component {
 
-  return (<View>
-    <Card style={{flex: 1}} key={store.id}>
-      <CardItem button onPress={() => this.props.selectStore(this, store)}>
-        <Left>
-            <Thumbnail source={{uri: 'Image URL'}} />
-            <Body>
-              <Text>{store.name}</Text>
-              <Text note>{store.address}</Text>
-            </Body>
-        </Left>
-      </CardItem>
-    </Card>      
-  </View>);
+  render(){
+    return (
+      <Container>
+        <Header>
+          <Left>
+            <Button
+              transparent
+              onPress={() => navigation.goBack()}>
+              <Icon name="md-arrow-dropleft" />
+            </Button>
+          </Left>
+          <Body>
+            <Foundation size={25} name="filter" />
+          </Body>
+          <Right />
+        </Header>
+        <Content padder>
+          <List
+            contentContainerStyle={{ marginTop: 0 }}>
+            {
+              cousines.sort(function(a, b){ return a.name > b.name; })
+              .map(cousine =>{
+                let cousSelected = cousine.id === this.props.cousine.id;
 
+                return (
+                  <ListItem
+                  onPress={() => this.props.selectCousine(this, cousine)}>
+                    <Left>
+                      <Text>{cousine.name}</Text>
+                    </Left>
+                    <Right>
+                      <Radio selected={cousSelected} />
+                    </Right>
+                  </ListItem>
+                );  
+              })
+            }
+          </List>
+        </Content>
+      </Container>);
+  }
+}
+
+
+const mapStateToProps = (allReducers) => ({
+  cousines : allReducers.storesReducer.cousines,
+  cousine : allReducers.storesReducer.cousine,
 });
+
+const mapDispatchToProps  = (dispatch) => ({
+  listCousines : (_this) => {
+    CousinesLib.listCousine(dispatch, _this);
+  },
+  selectCousine : (_this, cousine) => {
+    CousinesLib.cousineSelect(dispatch, cousine);
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(FilterScreen);
+
