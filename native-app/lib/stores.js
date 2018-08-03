@@ -4,10 +4,10 @@ import ApiIntegration from './apiIntegration';
 export default class Stores
 {
   static dispatchers = {
-    STORES_LIST : (dispatch, storesList)=>{
+    STORES_LIST : (dispatch, stores)=>{
       dispatch({
         type:'STORES_LIST',
-        storesList:stores
+        stores:stores
       });
     },
     STORE_SELECT :(dispatch, store)=>{

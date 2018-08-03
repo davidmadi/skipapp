@@ -35,7 +35,13 @@ class OrderScreen extends React.Component {
     return (
       <Container>
         <Header>
-          <Left></Left>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate("DrawerToggle")}>
+              <Icon name="menu" />
+            </Button>
+          </Left>
           <Body>
             <Text>Orders</Text>
           </Body>
@@ -43,41 +49,44 @@ class OrderScreen extends React.Component {
         </Header>
         <Content padder>
           <List
-            dataArray={this.props.orders}
-            contentContainerStyle={{ marginTop: 120 }}
-            renderRow={order => {
-              return (
-                <TouchableOpacity
-                onPress={() => this.props.refreshOrderStatus(this, order)}>
-                  <Card style={{flex: 1}} key={product.id}>
-                    <CardItem>
-                      <Left>
-                        <Icon name="pricetag" />
-                      </Left>
-                      <Body>
-                        <Text>{order.id}</Text>
-                        <Text>{order.storeName}</Text>
-                        <Text note>{order.orderItems.length}</Text>
-                      </Body>
-                      <Right>
-                        <Text>{order.status}</Text>
-                      </Right>
-                    </CardItem>
-                  </Card>
-                </TouchableOpacity>
-              );
-            }}
-          />
+            contentContainerStyle={{ marginTop: 120 }}>
+            {
+              this.props.orders.map(order =>{
+                return (
+                  <TouchableOpacity key={order.id}
+                  onPress={() => this.props.refreshOrderStatus(this, order)}>
+                    <Card style={{flex: 1}}>
+                      <CardItem>
+                        <Left style={{flexDirection:'row'}}>
+                          <Icon name="pricetag" />
+                          <Text>{order.id}</Text>
+                        </Left>
+                        <Body>
+                          <Text>{order.storeName}</Text>
+                          <Text note>{order.orderItems.length} Items</Text>
+                        </Body>
+                        <Right>
+                          <Text>{order.status}</Text>
+                        </Right>
+                      </CardItem>
+                    </Card>
+                  </TouchableOpacity>
+                );
+              })
+            }
+          </List>
         </Content>
       </Container>
     );
   }
 }
 
-const mapStateToProps = (allReducers) => ({
-  orders : allReducers.orderReducer.orders,
-  user : allReducers.customerReducer.user,
-});
+const mapStateToProps = (allReducers) => {
+  return {
+    orders : allReducers.orderReducer.orders,
+    user : allReducers.customerReducer.user,
+  }
+};
 
 const mapDispatchToProps  = (dispatch) => ({
   refreshOrderStatus : (_this, order) => {

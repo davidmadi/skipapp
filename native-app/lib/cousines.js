@@ -4,10 +4,10 @@ import ApiIntegration from './apiIntegration';
 export default class Cousines {
 
   static dispatchers = {
-    COUSINES_LIST : (dispatch, cousineList)=>{
+    COUSINES_LIST : (dispatch, cousines)=>{
       dispatch({
         type:'COUSINES_LIST',
-        cousineList:cousineList
+        cousines:cousines
       });
     },
     COUSINE_SELECT: (dispatch, cousine)=>{

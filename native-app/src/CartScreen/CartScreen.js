@@ -43,16 +43,32 @@ class CartScreen extends React.Component {
 
   render() {
 
-    if (this.props.price == 0){
-      return(
-        <Container>
-          <Header></Header>
-          <Body style={{ marginTop:itemHeigh }}>
-            <Text info style={{fontSize:30}} >Your cart is empty.</Text>
-            <Text info style={{fontSize:70}}>;-)</Text>
-          </Body>
-        </Container>
-      );
+    let content = <Body style={{ marginTop:itemHeigh }}>
+        <Text info style={{fontSize:30}} >Your cart is empty.</Text>
+        <Text info style={{fontSize:70}}>;-)</Text>
+      </Body>;
+
+    if (this.props.price > 0){
+      content = <Content padder>
+        <List
+          contentContainerStyle={{ marginTop: 120 }}>
+          {
+            this.props.items.sort(function(a, b){ return a.name > b.name; })
+            .map(product => {
+              return (
+                <Card style={{flex: 1}} key={product.id}>
+                  <CardItem>
+                    <Left><Text>{product.quantity}x</Text></Left>
+                    <Right>
+                      <Text>{product.name}</Text>
+                    </Right>
+                  </CardItem>
+                </Card>
+              );  
+            })
+          }
+        </List>
+      </Content>
     }
 
     const priceFormatted = "$ " + this.props.price;
@@ -62,8 +78,7 @@ class CartScreen extends React.Component {
           <Left>
             <Button
               transparent
-              onPress={() => this.props.navigation.navigate("DrawerToggle")}
-            >
+              onPress={() => this.props.navigation.navigate("DrawerToggle")}>
               <Icon name="menu" />
             </Button>
           </Left>
@@ -72,24 +87,7 @@ class CartScreen extends React.Component {
           </Body>
           <Right />
         </Header>
-        <Content padder>
-          <List
-            dataArray={this.props.items.sort(function(a, b){ return a.name > b.name; })}
-            contentContainerStyle={{ marginTop: 120 }}
-            renderRow={product => {
-              return (
-                <Card style={{flex: 0}} key={product.id}>
-                  <CardItem>
-                    <Left><Text>{product.quantity}x</Text></Left>
-                    <Right>
-                      <Text>{product.name}</Text>
-                    </Right>
-                  </CardItem>
-                </Card>
-              );
-            }}
-          />
-        </Content>
+        {content}
         <Footer style={{marginBottom: paddApp, height:itemHeigh*2}}>
           <Container>
             <Grid>
@@ -123,11 +121,13 @@ const mapStateToProps = (allReducers) => ({
   items : allReducers.cartReducer.items,
   price : allReducers.cartReducer.price,
   user : allReducers.customerReducer.user,
+  stores : allReducers.storesReducer.stores,
 });
 
 const mapDispatchToProps  = (dispatch) => ({
   placeOrder : (_this) => {
     OrderLib.createOrders(dispatch, _this);
+    _this.props.navigation.navigate("Order");
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);

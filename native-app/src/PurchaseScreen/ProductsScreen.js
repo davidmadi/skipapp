@@ -19,8 +19,8 @@ import {
   Image,
   Radio
 } from "native-base";
-import products from '../../lib/products';
-import cart from '../../lib/cart';
+import Products from '../../lib/products';
+import Cart from '../../lib/cart';
 
 class ProductsScreen extends React.Component {
 
@@ -57,25 +57,29 @@ class ProductsScreen extends React.Component {
         </Header>
         <Content padder>
           <List
-            dataArray={this.props.productsList.sort(function(a, b){ return a.name > b.name; })}
-            contentContainerStyle={{ marginTop: 0 }}
-            renderRow={food => {
-              return (
-                <ListItem avatar>
-                  <Left>
-                    <Icon name="pricetag" />
-                  </Left>
-                  <Body>
-                    <Text>{food.name}</Text>
-                    <Text note>{food.description}</Text>
-                  </Body>
-                  <Right>
-                    <Text note>$ {food.price}</Text>
-                  </Right>
-                </ListItem>
-              );
-            }}
-          />
+            contentContainerStyle={{ marginTop: 0 }}>
+            {
+              this.props.productsList.sort(function(a, b){ return a.name > b.name; })
+              .map(food =>{
+                return (
+                  <Card style={{flex: 1}} key={food.id}>
+                    <CardItem button onPress={() => this.selectItem(food)}>
+                      <Left>
+                        <Icon name="pricetag" />
+                      </Left>
+                      <Body>
+                        <Text>{food.name}</Text>
+                        <Text note>{food.description}</Text>
+                      </Body>
+                      <Right>
+                        <Text note>$ {food.price}</Text>
+                      </Right>
+                    </CardItem>
+                  </Card>
+                );  
+              })
+            }
+          </List>
         </Content>
       </Container>
     );
@@ -89,10 +93,10 @@ const mapStateToProps = (allReducers) => ({
 
 const mapDispatchToProps  = (dispatch) => ({
   listProducts : (_this) => {
-    products.listProducts(dispatch, _this);
+    Products.listProducts(dispatch, _this);
   },
   addCartItem : (_this, product) => {
-    cart.addItem(dispatch, _this, product);
+    Cart.addItem(dispatch, _this, product);
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsScreen);

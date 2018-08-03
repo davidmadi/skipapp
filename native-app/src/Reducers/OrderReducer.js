@@ -22,11 +22,7 @@ lastUpdate: null,//	string($date-time)
 export default function orderReducer(state = initialState(), action){
   let map = Map(state);
 
-  if (action.type === "ORDER_NEW"){
-    let newArray = state.orders.concat([action.order]);
-    map = map.set('orders', newArray);
-  }
-  else if (action.type === "ORDERS_ALL"){
+  if (action.type === "ORDERS_ALL"){
     map = map.set('orders', action.orders);
   }
   else if (action.type === "ORDER_UPDATE"){

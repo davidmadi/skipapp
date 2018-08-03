@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { StatusBar } from "react-native";
+import { StatusBar, TouchableOpacity } from "react-native";
 import { StackNavigator } from "react-navigation";
 import {
   Thumbnail,
@@ -22,21 +22,30 @@ import {
   Label
 } from "native-base";
 import stores from '../../lib/stores';
+import Foundation from '@expo/vector-icons/Foundation';
+
 
 class StoresScreen extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
-      isLoading: true
+      isLoading: false,
+      filterOpened : false,
     };
+    this.openFilter = this.openFilter.bind(this);
   }
 
   componentDidMount(){
     this.props.listStores(this);
   }
 
+  openFilter(){
+
+  }
+
   render() {
+
     return (
       <Container>
         <Header>
@@ -45,13 +54,18 @@ class StoresScreen extends React.Component {
               transparent
               onPress={() => this.props.navigation.navigate("DrawerToggle")}
             >
-              <Icon name="menu" />
+              <Icon name="md-arrow-dropleft" />
             </Button>
           </Left>
           <Body>
             <Icon name="globe" />
           </Body>
-          <Right />
+          <Right>
+            <TouchableOpacity
+            onPress={() => this.openFilter()}>
+              <Foundation size={25} name="filter" />
+            </TouchableOpacity>
+          </Right>
         </Header>
         <Content>
             {
@@ -60,7 +74,7 @@ class StoresScreen extends React.Component {
               {
                 return ( 
                   <Card style={{flex: 0}} key={store.id}>
-                    <CardItem button onPress={this.props.selectStore(this, store)}>
+                    <CardItem button onPress={() => this.props.selectStore(this, store)}>
                       <Left>
                           <Thumbnail source={{uri: 'Image URL'}} />
                           <Body>

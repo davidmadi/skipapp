@@ -12,14 +12,13 @@ export default function productsReducer(state = initialState(), action){
   let refilter = false;
 
   if (action.type === "PRODUCTS_LIST") {
-    refilter = true;
-    map = map.set('allProducts', action.productsList);
+    map = map.set('allProducts', action.productsList).set('productsList', action.productsList);
   }
 
-  if (refilter) {
-    let filteredProducts = state.allProducts.filter(f => f.storeId === state.storeId);
-    map = map.set('productsList', filteredProducts);
-  }
+  //if (refilter) {
+  //  let filteredProducts = state.allProducts.filter(f => f.storeId === state.storeId);
+  //  map = map.set('productsList', filteredProducts);
+  //}
 
   state = map.toObject();
   return state;

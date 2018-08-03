@@ -4,10 +4,10 @@ import ApiIntegration from './apiIntegration';
 export default class Cart {
 
   static dispatchers = {
-    CART_ADD : (dispatch, item)=>{
+    CART_ADD : (dispatch, product)=>{
       dispatch({
         type:'CART_ADD',
-        item:item
+        product:product
       });
     }
   }

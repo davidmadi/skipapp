@@ -134,7 +134,7 @@ export default class ApiIntegration{
 
   static listCousine(){
     return new Promise((resolve,reject)=>{
-      resolve(mock.listCousines());
+      resolve(mocks.listCousines());
       return;
 
       fetch('http://api-vanhack-event-sp.azurewebsites.net/api/v1/Cousine', {

@@ -20,14 +20,14 @@ export default class OrderLib {
 
   static createOrders(dispatch, _this){
     
-    let orders = Order.splitProductsInOrders(_this);
-    Cart.dispatchers.ORDERS_ALL(dispatch, orders);
+    let orders = OrderLib.splitProductsInOrders(_this);
+    OrderLib.dispatchers.ORDERS_ALL(dispatch, orders);
   }
 
   static splitProductsInOrders(_this){
-    let items = _this.items;
-    let user = _this.user;
-    let allStores = _this.stores;
+    let items = _this.props.items;
+    let user = _this.props.user;
+    let allStores = _this.props.stores;
 
     let storeIDs = [];
     items.map(i => {
@@ -36,12 +36,12 @@ export default class OrderLib {
     });
     let orders = [];
     let orderId = 10;
-    storeIDs.map(s => {
-      let products = item.find(i => i.storeId === s.id);
+    storeIDs.map(storeId => {
+      let products = items.filter(i => i.storeId === storeId);
       let totalPrice = products.reduce(Math.sumProductReducer, 0);
-      let store = allStores.find(s => s.id === s.id)
+      let store = allStores.find(s => s.id === storeId)
       let storeName = (store) ? store.name : "";
-      let order = Cart.newOrder(products, user, s.id, totalPrice, orderId++, storeName);
+      let order = OrderLib.newOrder(products, user, storeId, totalPrice, orderId++, storeName);
       orders.push(order);
     });
 
@@ -63,7 +63,7 @@ export default class OrderLib {
     order.attempt++;
 
     let newOrder = {...order};
-    Order.dispatchers.ORDER_UPDATE(dispatch, order);
+    OrderLib.dispatchers.ORDER_UPDATE(dispatch, order);
 
   }
 
