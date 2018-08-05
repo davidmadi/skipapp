@@ -54,7 +54,9 @@ class AuthScreen extends React.Component {
           <Right />
         </Header>
         <Content padder>
-          <Label>Authentication</Label>
+          <Item style={{alignSelf:'center'}}>
+            <Label>Authentication</Label>
+          </Item>
           <Item>
             <Input placeholder='Email' value={this.state.email} onChangeText={(text) => this.setState({email:text})}/>
           </Item>        

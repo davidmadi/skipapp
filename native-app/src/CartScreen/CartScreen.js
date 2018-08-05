@@ -58,7 +58,22 @@ class CartScreen extends React.Component {
               return (
                 <Card style={{flex: 1}} key={product.id}>
                   <CardItem>
-                    <Left><Text>{product.quantity}x</Text></Left>
+                    <Body>
+                      <Text note>{product.storeName}</Text>
+                    </Body>
+                  </CardItem>
+                  <CardItem>
+                    <Body>
+                      <Text note>{product.description}</Text>
+                    </Body>
+                  </CardItem>
+                  <CardItem>
+                    <Left>
+                      <Text>{product.quantity}x</Text>
+                    </Left>
+                    <Body>
+                      <Text note>{product.price}</Text>
+                    </Body>
                     <Right>
                       <Text>{product.name}</Text>
                     </Right>

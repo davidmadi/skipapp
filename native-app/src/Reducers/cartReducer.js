@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import Math from '../../lib/calculations/math';
+import AMath from '../../lib/calculations/amath';
 
 function initialState(){
   return {
@@ -29,7 +29,8 @@ export default function cartReducer(state = initialState(), action){
   }
 
   if (recalculate){
-    let newPrice = map.get('items').reduce(Math.sumProductReducer, 0);
+    let newPrice =  map.get('items').reduce(AMath.sumProductReducer, 0);
+    newPrice = AMath.aRound(newPrice);
     map = map.set('price', newPrice);
   }
 

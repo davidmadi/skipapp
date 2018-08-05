@@ -5,7 +5,7 @@ import {
   Button,
   Text,
   Container,
-  Card,
+  Footer,
   CardItem,
   Body,
   Content,
@@ -26,15 +26,23 @@ class CousinesScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {isLoading: true};
+    this.reset = this.reset.bind(this);
   }
   
   componentDidMount(){
     this.props.listCousines(this);
   }
 
+  reset(){
+    this.selectCousine(null);
+  }
+
   selectCousine(item){    
     this.props.cousineSelect(this, item);
-    this.props.navigation.navigate("stores");
+    this.props.navigation.goBack();
+    let onSelect = this.props.navigation.getParam("onSelect");
+    if (onSelect)
+      onSelect();
   }
 
   render() {
@@ -46,7 +54,7 @@ class CousinesScreen extends React.Component {
               transparent
               onPress={() => this.props.navigation.goBack()}
             >
-              <Icon name="menu" />
+              <Icon name="md-arrow-dropleft" />
             </Button>
           </Left>
           <Body>
@@ -56,25 +64,37 @@ class CousinesScreen extends React.Component {
         </Header>
         <Content padder>
           <List
-            dataArray={this.props.cousines.sort(function(a, b){ return a.name > b.name; })}
-            contentContainerStyle={{ marginTop: 0 }}
-            renderRow={cousine => {
-              return (
-                  <ListItem avatar 
-                    onPress={()=> this.selectCousine(cousine)}>
-                    <Left>
-                      <Icon name="albums" />
-                    </Left>
-                    <Body>
-                      <Text>{cousine.name}</Text>
-                      <Text note>{cousine.description}</Text>
-                    </Body>
-                    <Right></Right>
-                  </ListItem>
-              );
-            }}
-          />
+            contentContainerStyle={{ marginTop: 0 }}>
+            {
+              this.props.cousines.sort(function(a, b){ return a.name > b.name; })
+              .map(mapCousine => {
+                let cousineSelected = (this.props.cousine && mapCousine.id === this.props.cousine.id) ? true : false;
+                return (
+                    <ListItem avatar 
+                      key={mapCousine.id}
+                      onPress={()=> this.selectCousine(mapCousine)}>
+                      <Left>
+                        <Icon name="albums" />
+                      </Left>
+                      <Body>
+                        <Text>{mapCousine.name}</Text>
+                        <Text note>{mapCousine.description}</Text>
+                      </Body>
+                      <Right>
+                        <Radio selected={cousineSelected} />
+                      </Right>
+                    </ListItem>
+                );
+              })
+            }
+          </List>
         </Content>
+        <Footer>
+          <Button
+          onPress={() => this.reset()}>
+            <Text>Reset</Text>
+          </Button>
+        </Footer>
       </Container>
     );
   }

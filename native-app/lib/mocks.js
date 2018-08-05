@@ -30,6 +30,7 @@ export default class Mocks{
     return [
       {
         id:1,
+        storeName: 'Chinese House',
         storeId:1,
         name: 'Yakissoba traditional',
         description:'Just yakissoba of traditional japenese dish',
@@ -38,6 +39,7 @@ export default class Mocks{
       {
         id:2,
         storeId:1,
+        storeName: 'Chinese House',
         name: 'Yakissoba veggie',
         description:'Yakissoba no meat of traditional japenese dish',
         price: 13.99
@@ -45,6 +47,7 @@ export default class Mocks{
       {
         id:3,
         storeId:1,
+        storeName: 'Chinese House',
         name: 'Yakissoba meat',
         description:'Yakissoba only meat of traditional japenese dish',
         price: 14.99
@@ -52,6 +55,7 @@ export default class Mocks{
       {
         id:4,
         storeId:2,
+        storeName: 'Mexican food emporio',
         name: 'Tacos full',
         description:'Full tacos of the mexican house',
         price: 9.99
@@ -59,6 +63,7 @@ export default class Mocks{
       {
         id:5,
         storeId:2,
+        storeName: 'Mexican food emporio',
         name: 'Burritos',
         description:'Plate of burritos with eggs',
         price: 6.99
@@ -66,6 +71,7 @@ export default class Mocks{
       {
         id:6,
         storeId:2,
+        storeName: 'Mexican food emporio',
         name: 'Enchilada',
         description:'Sometimes I want the whole enchilada',
         price: 5.99
@@ -73,6 +79,7 @@ export default class Mocks{
       {
         id:7,
         storeId:3,
+        storeName: 'Brazil and You',
         name: 'Feijoada',
         description:'Traditional brazilian rice and beans food',
         price: 19.99
@@ -80,6 +87,7 @@ export default class Mocks{
       {
         id:8,
         storeId:3,
+        storeName: 'Brazil and You',
         name: 'Feijão tropeiro',
         description:'Traditional brazilian beans in crumbs',
         price: 17.99
@@ -87,6 +95,7 @@ export default class Mocks{
       {
         id:9,
         storeId:3,
+        storeName: 'Brazil and You',
         name: 'Pao de queijo',
         description:'Traditional brazilian cheese snack',
         price: 2.99

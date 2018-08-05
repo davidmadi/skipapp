@@ -22,6 +22,7 @@ import {
   Image
 } from "native-base";
 import OrderLib from '../../lib/orderLib';
+import AMath from '../../lib/calculations/amath';
 
 
 class OrderScreen extends React.Component {
@@ -52,6 +53,8 @@ class OrderScreen extends React.Component {
             contentContainerStyle={{ marginTop: 120 }}>
             {
               this.props.orders.map(order =>{
+                let totalItems = order.orderItems.reduce(AMath.sumProductQuantityReducer, 0);
+                let totalPrice =  AMath.aRound(order.orderItems.reduce(AMath.sumProductReducer, 0));
                 return (
                   <TouchableOpacity key={order.id}
                   onPress={() => this.props.refreshOrderStatus(this, order)}>
@@ -59,11 +62,11 @@ class OrderScreen extends React.Component {
                       <CardItem>
                         <Left style={{flexDirection:'row'}}>
                           <Icon name="pricetag" />
-                          <Text>{order.id}</Text>
+                          <Text>{totalPrice}</Text>
                         </Left>
                         <Body>
                           <Text>{order.storeName}</Text>
-                          <Text note>{order.orderItems.length} Items</Text>
+                          <Text note>{totalItems} Items</Text>
                         </Body>
                         <Right>
                           <Text>{order.status}</Text>

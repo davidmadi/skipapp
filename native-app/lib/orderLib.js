@@ -1,5 +1,5 @@
 //http://api-vanhack-event-sp.azurewebsites.net/swagger/
-import Math from './calculations/math'
+import AMath from './calculations/amath'
 
 export default class OrderLib {
 
@@ -38,7 +38,7 @@ export default class OrderLib {
     let orderId = 10;
     storeIDs.map(storeId => {
       let products = items.filter(i => i.storeId === storeId);
-      let totalPrice = products.reduce(Math.sumProductReducer, 0);
+      let totalPrice = products.reduce(AMath.sumProductReducer, 0);
       let store = allStores.find(s => s.id === storeId)
       let storeName = (store) ? store.name : "";
       let order = OrderLib.newOrder(products, user, storeId, totalPrice, orderId++, storeName);

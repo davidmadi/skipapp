@@ -34,17 +34,27 @@ class StoresScreen extends React.Component {
       filterOpened : false,
     };
     this.openFilter = this.openFilter.bind(this);
+    this.filtered = this.filtered.bind(this);
   }
 
   componentDidMount(){
     this.props.listStores(this);
   }
 
+  filtered(){
+    this.props.listStores(this);
+  }
+
   openFilter(){
-    this.props.navigation.navigate("cousines");
+    this.props.navigation.navigate("cousines", {onSelect:this.filtered});
   }
 
   render() {
+    let filteredStores = this.props.stores;
+    if (this.props.cousine)
+      filteredStores = this.props.stores.filter(s => s.cousineId === this.props.cousine.id);
+
+    filteredStores = filteredStores.sort(function(a, b){ return a.name > b.name; });
 
     return (
       <Container>
@@ -54,7 +64,7 @@ class StoresScreen extends React.Component {
               transparent
               onPress={() => this.props.navigation.navigate("DrawerToggle")}
             >
-              <Icon name="md-arrow-dropleft" />
+              <Icon name="menu" />
             </Button>
           </Left>
           <Body>
@@ -69,8 +79,8 @@ class StoresScreen extends React.Component {
         </Header>
         <Content>
             {
-              this.props.stores.sort(function(a, b){ return a.name > b.name; })
-              .map(store =>
+              
+              filteredStores.map(store =>
               {
                 return ( 
                   <Card style={{flex: 0}} key={store.id}>
@@ -96,6 +106,7 @@ class StoresScreen extends React.Component {
 const mapStateToProps = (allReducers) => ({
   stores : allReducers.storesReducer.stores,
   store : allReducers.storesReducer.store,
+  cousine : allReducers.storesReducer.cousine,
 });
 
 const mapDispatchToProps  = (dispatch) => ({

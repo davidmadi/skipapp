@@ -39,6 +39,12 @@ class ProductsScreen extends React.Component {
   }
 
   render() {
+    let filteredProducts = this.props.productsList;
+    if (this.props.store)
+      filteredProducts = this.props.productsList.filter(s => s.storeId === this.props.store.id);
+
+    filteredProducts = filteredProducts.sort(function(a, b){ return a.name > b.name; });
+
     return (
       <Container>
         <Header>
@@ -59,8 +65,7 @@ class ProductsScreen extends React.Component {
           <List
             contentContainerStyle={{ marginTop: 0 }}>
             {
-              this.props.productsList.sort(function(a, b){ return a.name > b.name; })
-              .map(food =>{
+              filteredProducts.map(food =>{
                 return (
                   <Card style={{flex: 1}} key={food.id}>
                     <CardItem button onPress={() => this.selectItem(food)}>
@@ -89,6 +94,7 @@ class ProductsScreen extends React.Component {
 
 const mapStateToProps = (allReducers) => ({
   productsList : allReducers.productsReducer.productsList,
+  store : allReducers.storesReducer.store,
 });
 
 const mapDispatchToProps  = (dispatch) => ({
