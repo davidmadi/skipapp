@@ -19,9 +19,4 @@ react-native run-ios
 <br />
 <br />
 <br />
-TODO:
-Place an order
-<br />
-Monitor order
-<br />
 #skipapp #vanchackaton #skipthedishes
