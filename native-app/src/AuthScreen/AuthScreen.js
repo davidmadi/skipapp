@@ -27,8 +27,8 @@ class AuthScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      email:'davidmadi@gmail.com', 
-      password:'Aa,12345', 
+      email:'admin@gmail.com', 
+      password:'1234', 
       autheticated:false, 
       message:'', 
       userToken:'',
@@ -62,15 +62,17 @@ class AuthScreen extends React.Component {
           </Item>        
           <Item>
             <Input placeholder='Password' value={this.state.password} onChangeText={(text) => this.setState({password:text})}/>
-          </Item>        
-          <Button
-            rounded
-            success
-            style={{ marginTop: 20, alignSelf: "center" }}
-            onPress={this.send.bind(this)}
-            >
-            <Text>Enter</Text>
-          </Button>
+          </Item>
+          <Item
+            style={{ marginTop: 20, alignSelf: "center" }}>
+            <Button
+              rounded
+              success
+              onPress={this.send.bind(this)}
+              >
+              <Text>Enter</Text>
+            </Button>
+          </Item>
           <Label style={{ marginTop: 20, alignSelf: "center" }}
             >{this.state.message}</Label>
         </Content>

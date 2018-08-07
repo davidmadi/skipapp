@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { StatusBar, AsyncStorage } from "react-native";
 import {
   Input,
   Label,
@@ -40,9 +39,12 @@ class ProfileScreen extends React.Component {
   }
 
   updateUser(){
-    this.props.userUpdate(this, this.state);
+    this.props.userUpdate(this);
   }
 
+  componentDidMount(){
+    this.props.loadProfile(this);
+  }
 
   render() {
     return (
@@ -63,18 +65,17 @@ class ProfileScreen extends React.Component {
         </Header>
         <Content padder>
           <Item>
-            <Input placeholder='Name' value={this.state.name} onChangeText={(text) => this.setState({name:text})}/>
+            <Input placeholder='Email' value={this.state.email} onChangeText={(text) => this.setState({email:text})}/>
           </Item>        
           <Item>
-            <Input placeholder='Email' value={this.state.email} onChangeText={(text) => this.setState({email:text})}/>
+            <Input placeholder='Name' value={this.state.name} onChangeText={(text) => this.setState({name:text})}/>
           </Item>        
           <Item>
             <Input placeholder='Address' value={this.state.address} onChangeText={(text) => this.setState({address:text})}/>
           </Item>
-          <Item>
-            <Button rounded full
-            onPress={()=> this.updateUser()}
-            >
+          <Item style={{ marginTop: 20, alignSelf: "center" }}>
+            <Button rounded
+              onPress={()=> this.updateUser()}>
               <Text>Update</Text>
             </Button>            
           </Item>
@@ -90,8 +91,11 @@ const mapStateToProps = (allReducers) => ({
 });
 
 const mapDispatchToProps  = (dispatch) => ({
-  userUpdate : (_this, user) => {
-    authentication.dispatchers.USERUPDATE(dispatch, user);
+  loadProfile : (_this) => {
+    authentication.LoadProfile(dispatch, _this);
+  },
+  userUpdate : (_this) => {
+    authentication.SaveProfile(dispatch, _this);
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

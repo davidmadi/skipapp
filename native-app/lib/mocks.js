@@ -13,9 +13,19 @@ export default class Mocks{
         id	:20,
         email:	'davidmadi@gmail.com',
         name:	'David Madi',
-        address:	'Rua topazio 701',
-        creation:	Date(),
+        address:	null,
+        creation:	null,
         password:	'Aa,13245'
+      }
+    }
+    else if (body.email === 'admin@gmail.com' && body.password ==='1234'){
+      return {
+        id	:20,
+        email:	'admin@gmail.com',
+        name:	'Admin User',
+        address:	null,
+        creation:	null,
+        password:	'1234'
       }
     }
     else
