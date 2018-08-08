@@ -53,7 +53,6 @@ class OrderScreen extends React.Component {
             contentContainerStyle={{ marginTop: 120 }}>
             {
               this.props.orders.map(order =>{
-                let totalItems = order.orderItems.reduce(AMath.sumProductQuantityReducer, 0);
                 let totalPrice =  AMath.aRound(order.orderItems.reduce(AMath.sumProductReducer, 0));
                 return (
                   <TouchableOpacity key={order.id}
@@ -64,9 +63,20 @@ class OrderScreen extends React.Component {
                           <Icon name="pricetag" />
                           <Text>{totalPrice}</Text>
                         </Left>
-                        <Body>
+                        <Body style={{flexDirection:'column'}}>
                           <Text>{order.storeName}</Text>
-                          <Text note>{totalItems} Items</Text>
+                          {
+                            order.orderItems.map((orderItem) => {
+                              return(
+                                <Card style={{flex: 1}}>
+                                  <CardItem>
+                                    <Left>{orderItem.quantity}</Left>
+                                    <Body>{orderItem.name}</Body>
+                                    <Right>{orderItem.price}</Right>
+                                  </CardItem>
+                                </Card>);
+                            })
+                          }
                         </Body>
                         <Right>
                           <Text>{order.status}</Text>
