@@ -103,7 +103,7 @@ class CartScreen extends React.Component {
           <Right />
         </Header>
         {content}
-        <Footer style={{marginBottom: paddApp, height:itemHeigh*2}}>
+        <Footer style={{backgroundColor:'transparent', marginBottom: paddApp, height:itemHeigh*2}}>
           <Container>
             <Grid>
               <Row style={{ padding:paddApp*2, height: itemHeigh }}>

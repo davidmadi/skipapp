@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import {
   Input,
@@ -32,6 +32,11 @@ class OrderScreen extends React.Component {
     this.state = {isLoading:false};
   }
 
+  componentDidMount(){
+    if (!this.props.order)
+      this.props.loadOrders(this);
+  }
+
   render() {
     return (
       <Container>
@@ -57,32 +62,42 @@ class OrderScreen extends React.Component {
                 return (
                   <TouchableOpacity key={order.id}
                   onPress={() => this.props.refreshOrderStatus(this, order)}>
-                    <Card style={{flex: 1}}>
-                      <CardItem>
-                        <Left style={{flexDirection:'row'}}>
-                          <Icon name="pricetag" />
-                          <Text>{totalPrice}</Text>
-                        </Left>
-                        <Body style={{flexDirection:'column'}}>
-                          <Text>{order.storeName}</Text>
-                          {
-                            order.orderItems.map((orderItem) => {
-                              return(
-                                <Card style={{flex: 1}}>
-                                  <CardItem>
-                                    <Left>{orderItem.quantity}</Left>
-                                    <Body>{orderItem.name}</Body>
-                                    <Right>{orderItem.price}</Right>
-                                  </CardItem>
-                                </Card>);
-                            })
-                          }
-                        </Body>
-                        <Right>
-                          <Text>{order.status}</Text>
-                        </Right>
-                      </CardItem>
-                    </Card>
+                      <Card style={{flex: 1}}>
+                        <CardItem>
+                          <Body>
+                            <Icon name="pricetag" />
+                            <Text>{totalPrice}</Text>
+                          </Body>
+                        </CardItem>
+                      </Card>
+                      <Card style={{flex: 1}} key={order.id}>
+                        <CardItem>
+                          <Body>
+                            <Text>{order.storeName}</Text>
+                          </Body>
+                        </CardItem>
+                        {
+                          order.orderItems.map(orderItem => {
+                            return(
+                              <CardItem key={orderItem.id}>
+                                <Left>
+                                  <Text>{orderItem.quantity}x</Text>
+                                  <Text note>{orderItem.storeName}</Text>
+                                </Left>
+                                <Body>
+                                  <Text>{orderItem.price}</Text>
+                                </Body>
+                              </CardItem>);
+                          })
+                        }
+                      </Card>
+                      <Card style={{flex: 1}}>
+                        <CardItem>
+                          <Body>
+                            <Text>{order.status}</Text>
+                          </Body>
+                        </CardItem>
+                      </Card>
                   </TouchableOpacity>
                 );
               })
@@ -104,6 +119,9 @@ const mapStateToProps = (allReducers) => {
 const mapDispatchToProps  = (dispatch) => ({
   refreshOrderStatus : (_this, order) => {
     OrderLib.refreshOrderStatus(dispatch, _this, order);    
+  },
+  loadOrders : (_this) => {
+    OrderLib.loadOrders(dispatch, _this);
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(OrderScreen);
