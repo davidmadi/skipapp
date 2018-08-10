@@ -62,40 +62,40 @@ class OrderScreen extends React.Component {
                 return (
                   <TouchableOpacity key={order.id}
                   onPress={() => this.props.refreshOrderStatus(this, order)}>
-                      <Card style={{flex: 1}}>
-                        <CardItem>
-                          <Body>
-                            <Icon name="pricetag" />
-                            <Text>{totalPrice}</Text>
-                          </Body>
-                        </CardItem>
-                      </Card>
                       <Card style={{flex: 1}} key={order.id}>
                         <CardItem>
+                          <Left>
+                            <Icon name="pricetag" />
+                          </Left>
                           <Body>
                             <Text>{order.storeName}</Text>
                           </Body>
+                          <Right>
+                            <Text>$ {totalPrice}</Text>
+                          </Right>
                         </CardItem>
                         {
                           order.orderItems.map(orderItem => {
+                            let linePrice = orderItem.quantity * orderItem.price;
                             return(
                               <CardItem key={orderItem.id}>
                                 <Left>
                                   <Text>{orderItem.quantity}x</Text>
-                                  <Text note>{orderItem.storeName}</Text>
+                                  <Text>{orderItem.storeName}</Text>
                                 </Left>
-                                <Body>
-                                  <Text>{orderItem.price}</Text>
-                                </Body>
+                                <Right>
+                                  <Text>{linePrice}</Text>
+                                </Right>
                               </CardItem>);
                           })
                         }
-                      </Card>
-                      <Card style={{flex: 1}}>
                         <CardItem>
-                          <Body>
+                          <Left>
+                            <Text>{order.deliveryAddress}</Text>
+                          </Left> 
+                          <Right>
                             <Text>{order.status}</Text>
-                          </Body>
+                          </Right>
                         </CardItem>
                       </Card>
                   </TouchableOpacity>

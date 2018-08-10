@@ -92,7 +92,7 @@ const mapStateToProps = (allReducers) => ({
 
 const mapDispatchToProps  = (dispatch) => ({
   loadProfile : (_this) => {
-    authentication.LoadProfile(dispatch, _this);
+    authentication.LoadProfile(dispatch, _this, _this.props.user);
   },
   userUpdate : (_this) => {
     authentication.SaveProfile(dispatch, _this);

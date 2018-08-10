@@ -20,7 +20,6 @@ export default function customerReducer(state = initialState(), action){
   if (action.type == "USERUPDATE" && action.user && action.user.id)
   {
     map = map.set('user', action.user);
-    state = action.user;
   }
   else if (action.type === "USERTOKEN")
   {

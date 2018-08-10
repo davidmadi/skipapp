@@ -87,8 +87,15 @@ const mapStateToProps = (allReducers) => ({
 const mapDispatchToProps  = (dispatch) => ({
   authenticate : (_this, user) => {
     Authentication.Authenticate(dispatch, _this, user)
-    .then(()=>{
-      _this.props.navigation.navigate("IndexApp");
+    .then((newUser)=>{
+      Authentication.LoadProfile(dispatch, _this, newUser)
+      .then(()=>{
+        _this.props.navigation.navigate("IndexApp");
+      })
+      .catch(()=>{
+        _this.props.navigation.navigate("IndexApp");
+      });
+
     });
   }
 });
