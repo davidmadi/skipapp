@@ -8,16 +8,11 @@ Run these commands bellow to use it:
 
 git clone https://github.com/davidmadi/skipapp
 <br />
-cd skipapp/
+cd skipapp
 <br />
 npm install --save
 <br />
-react-native start --reset-cache
-<br />
-Open another terminal
-<br />
-react-native run-ios
-<br />
+npm start
 <br />
 <br />
 #skipapp #vanchackaton #skipthedishes
